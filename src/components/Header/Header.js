@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignIn } from '@fortawesome/free-solid-svg-icons'
+import { faSignIn,faSignOut } from '@fortawesome/free-solid-svg-icons'
 import CustomLink from '../CustomLink/CustomLink';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { signOut } from 'firebase/auth';
-import logo from '../../images/laptop_inventory.png'
+
 
 
 
@@ -49,7 +49,7 @@ const Header = () => {
                     </button>
                     <div className="collapse navbar-collapse flex-grow items-center" id="navbarSupportedContent">
                         <Link className="" to={'/'}>
-                            <img src={logo} alt="" className='h-[80px]'/>
+                            Xtreme Computers
                         </Link>
                         {/* <!-- Left links --> */}
                         {
@@ -88,7 +88,7 @@ const Header = () => {
                                     }
                                 
                                 {
-                                    user?.uid?<button className='bg-gray-300 text-black font-bold py-1 px-2 rounded' onClick={()=>signOut(auth)}>Logout</button>:
+                                    user?.uid?<button className='bg-gray-300 text-black font-bold py-1 px-2 rounded' onClick={()=>signOut(auth)}>Logout<FontAwesomeIcon icon={faSignOut}/></button>:
                                     <CustomLink className="nav-link py-2 px-2  text-white" aria-current="page" to={'/login'} >
                                     LogIn
                                     <FontAwesomeIcon className='ml-1' icon={faSignIn}/>
