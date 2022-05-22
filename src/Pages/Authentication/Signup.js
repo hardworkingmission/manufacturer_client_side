@@ -31,7 +31,7 @@ const Signup = () => {
         reset()
     }
     return (
-        <div className='my-5 flex justify-center'>
+        <div className='w-5/6 mx-auto my-5 flex justify-center'>
              <div className="p-5 rounded-lg lg:w-2/6 md:w-1/2 w-full shadow-lg">
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <h3 className='text-xl text-[#605C3C] font-bold'>Sign Up</h3>
