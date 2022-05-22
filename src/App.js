@@ -5,6 +5,8 @@ import Home from './Pages/Home/Home'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { Route, Routes } from 'react-router-dom';
+import Signup from './Pages/Authentication/Signup';
+import Login from './Pages/Authentication/Login';
 
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
       <Header/>
       <Routes>
         <Route path='/' element={<Home/>}/>
+        <Route path='/signup' element={<Signup/>}/>
+        <Route path='/login' element={<Login/>}/>
       </Routes>
       <Footer/>
     </div>

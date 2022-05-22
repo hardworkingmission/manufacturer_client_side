@@ -23,6 +23,9 @@ const Home = () => {
             <section className='contact-us'>
                 <ContactUs/>
             </section>
+            <section>
+                <h3>Extra Section</h3>
+            </section>
         </div>
     );
 };
