@@ -1,5 +1,5 @@
-import React from 'react';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import React, { useState } from 'react';
+import { useCreateUserWithEmailAndPassword,useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import auth from '../../firebase.init';
@@ -11,10 +11,14 @@ const Signup = () => {
         signupLoading,
         signupError,
       ] = useCreateUserWithEmailAndPassword(auth,{sendEmailVerification:true});
-      const { register, formState: { errors },getValues, handleSubmit,watch} = useForm();
-      const onSubmit=(data)=>{
-          console.log(data)
-      }
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+    //const [error,setError]=useState('')
+    const { register, formState: { errors },getValues, handleSubmit,watch} = useForm();
+    const onSubmit=async(data)=>{
+        const {email,name,password}=data
+        await createUserWithEmailAndPassword(email,password)
+        updateProfile({ displayName:name})
+    }
     return (
         <div className='my-5 flex justify-center'>
              <div className="p-5 rounded-lg lg:w-2/6 md:w-1/2 w-full shadow-lg">
@@ -46,6 +50,7 @@ const Signup = () => {
                         
                     </div>
                     <div className=''>
+                        <p className='text-red-600'>{signupError?signupError.message:''||updateError?updateError.message:''}</p>
                         <input type="submit" value="Sign Up"className="w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white" />
                     </div>
                 </form>
