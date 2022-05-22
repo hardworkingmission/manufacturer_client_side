@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword,useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from "react-hook-form";
 import auth from '../../firebase.init';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
+import SocialLogin from './SocialLogin';
 
 const Login = () => {
     const [
@@ -12,13 +15,29 @@ const Login = () => {
         loginLoading,
         loginError,
       ] = useSignInWithEmailAndPassword(auth);
+    const [sendPasswordResetEmail, sending, error] = useSendPasswordResetEmail(
+    auth
+    );
+    const [email,setEmail]=useState('')
     const { register, formState: { errors }, handleSubmit,reset} = useForm();
     const navigate=useNavigate()
     const onSubmit=(data)=>{
         const {email,password}=data
         signInWithEmailAndPassword(email,password)
     }
-    if(loginLoading){
+    const resetUserPassword=async()=>{
+        if(email){
+            await sendPasswordResetEmail(email)
+            toast.success('Password Reset Email has sent..!')
+            reset()
+            setEmail('')
+        }else{
+            toast.error("Please enter email fist")
+        }
+        
+
+    }
+    if(loginLoading||sending){
         return <CustomSpinner/>
     }
     if(loginUser){
@@ -28,11 +47,12 @@ const Login = () => {
 
     return (
         <div className='my-5 flex justify-center'>
+            <ToastContainer/>
             <div className="p-5 rounded-lg lg:w-2/6 md:w-1/2 w-full shadow-lg">
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <h3 className='text-xl text-[#605C3C] font-bold'>Login</h3>
                     <div className='my-2'>
-                        <input type={'email'} {...register("email", { required: true,pattern:/^[^\s@]+@[^\s@]+\.[^\s@]+$/ })} className="w-full p-2 outline-none rounded-lg border-2" placeholder='Email'/>
+                        <input type={'email'} {...register("email", { required: true,pattern:/^[^\s@]+@[^\s@]+\.[^\s@]+$/ })} className="w-full p-2 outline-none rounded-lg border-2" placeholder='Email' onChange={(e)=>setEmail(e.target.value)}/>
                         <p className='text-red-600'>{errors.email?.type === 'required' && "Email is required"}</p>
                         <p className='text-red-600'>{errors.email?.type === 'pattern' && "Invalid Email"}</p>
                     </div>
@@ -42,12 +62,12 @@ const Login = () => {
                         <p className='text-red-600'>{errors.password?.type === 'pattern' && "Password  must be 8 or more characters, at least one letter and one number"}</p>
                     </div>
                     <div className=''>
-                        <p className='text-red-600'>{loginError?loginError.message:''}</p>
+                        <p className='text-red-600'>{loginError?loginError.message:''||error?error.message:''}</p>
                         <input type="submit" value="Login"className="w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white" />
                     </div>
                 </form>
                 <div className='mt-1 text-right'>
-                    <p className='underline text-blue-600'>Forgot Password?</p>
+                    <p className='underline text-blue-600 cursor-pointer' onClick={()=>resetUserPassword()}>Forgot Password?</p>
                 </div>
                 <div className='flex justify-center items-center my-1'>
                     <div className='w-full h-[3px] bg-[#605C3C]'>
@@ -59,7 +79,7 @@ const Login = () => {
                     </div>
                 </div>
                 <div className='mb-2'>
-                    <button className='w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white'>Continue with Google</button>
+                    <SocialLogin/>
                 </div>
                 <div>
                     <p className=''>Need an account? <Link to='/signup' className='underline text-blue-600'>Sign Up</Link></p>

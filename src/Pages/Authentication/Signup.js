@@ -4,6 +4,7 @@ import CustomSpinner from '../../components/CustomSpinner/CustomSpinner'
 import { useForm } from "react-hook-form";
 import { Link,useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import SocialLogin from './SocialLogin';
 
 const Signup = () => {
     const [
@@ -74,7 +75,7 @@ const Signup = () => {
                     </div>
                 </div>
                 <div className='mb-2'>
-                    <button className='w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white'>Continue with Google</button>
+                    <SocialLogin/>
                 </div>
                 <div>
                     <p className=''>Already an user? <Link to='/login' className='underline text-blue-600'>Login</Link></p>
