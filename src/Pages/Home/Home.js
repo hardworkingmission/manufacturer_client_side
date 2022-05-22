@@ -1,5 +1,6 @@
 import React from 'react';
 import CustomCarousel from '../../components/CustomCarousel/CustomCarousel';
+import BusinessSummary from '../BusinessSummary/BusinessSummary';
 import Parts from '../Parts/Parts';
 
 const Home = () => {
@@ -12,7 +13,7 @@ const Home = () => {
                 <Parts/>
             </section>
             <section className='business-summary'>
-
+                <BusinessSummary/>
             </section>
         </div>
     );
