@@ -14,7 +14,7 @@ const Signup = () => {
       ] = useCreateUserWithEmailAndPassword(auth,{sendEmailVerification:true});
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     //const [error,setError]=useState('')
-    const { register, formState: { errors },getValues, handleSubmit,watch} = useForm();
+    const { register, formState: { errors },getValues, handleSubmit,watch,reset} = useForm();
     const navigate=useNavigate()
 
     const onSubmit=async(data)=>{
@@ -27,13 +27,14 @@ const Signup = () => {
     }
     if(signupUser){
         navigate('/')
+        reset()
     }
     return (
         <div className='my-5 flex justify-center'>
              <div className="p-5 rounded-lg lg:w-2/6 md:w-1/2 w-full shadow-lg">
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <h3 className='text-xl text-[#605C3C] font-bold'>Sign Up</h3>
-                    <div className='mb-2'>
+                    <div className='my-2'>
                         <input {...register("name", { required: true })} className="w-full p-2 outline-none rounded-lg border-2" placeholder='Name'/>
                         <p className='text-red-600'>{errors.name?.type === 'required' && "Name is required"}</p>
                     </div>

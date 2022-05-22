@@ -83,13 +83,13 @@ const Header = () => {
                             <li className="nav-item px-2  mb-3 md:m-0 flex items-center"> 
                                     {
                                         user?.uid&&(
-                                            <div className='h-[35px] w-[35px] rounded-[50%] border border-2 flex justify-center items-center mr-2 bg-gray-300 text-white'> {user.displayName?.slice(0,1).toUpperCase()}</div>
+                                            <div className='h-[35px] w-[35px] rounded-[50%] border border-2 flex justify-center items-center mr-2 bg-gray-300 text-white'> {user?.displayName?.slice(0,1).toUpperCase()}</div>
                                         )
                                     
                                     }
                                 
                                 {
-                                    user?.uid?<button className='bg-gray-300 text-white font-bold py-1 px-2 rounded' onClick={()=>signOut(auth)}>Logout<FontAwesomeIcon icon={faSignOut}/></button>:
+                                    user?.uid?<button className='bg-gray-300 text-white font-bold py-1 px-2 rounded' onClick={()=>signOut(auth)}>Logout<FontAwesomeIcon className='ml-1' icon={faSignOut}/></button>:
                                     <CustomLink className="nav-link py-2 px-2  text-white" aria-current="page" to={'/login'} >
                                     LogIn
                                     <FontAwesomeIcon className='ml-1' icon={faSignIn}/>

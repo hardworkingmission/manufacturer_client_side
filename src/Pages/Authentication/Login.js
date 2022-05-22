@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
 import auth from '../../firebase.init';
+import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 
 const Login = () => {
     const [
@@ -11,16 +12,26 @@ const Login = () => {
         loginLoading,
         loginError,
       ] = useSignInWithEmailAndPassword(auth);
-      const { register, formState: { errors }, handleSubmit} = useForm();
-      const onSubmit=(data)=>{
-          console.log(data)
-      }
+    const { register, formState: { errors }, handleSubmit,reset} = useForm();
+    const navigate=useNavigate()
+    const onSubmit=(data)=>{
+        const {email,password}=data
+        signInWithEmailAndPassword(email,password)
+    }
+    if(loginLoading){
+        return <CustomSpinner/>
+    }
+    if(loginUser){
+        navigate('/')
+        reset()
+    }
+
     return (
         <div className='my-5 flex justify-center'>
             <div className="p-5 rounded-lg lg:w-2/6 md:w-1/2 w-full shadow-lg">
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <h3 className='text-xl text-[#605C3C] font-bold'>Login</h3>
-                    <div className='mb-2'>
+                    <div className='my-2'>
                         <input type={'email'} {...register("email", { required: true,pattern:/^[^\s@]+@[^\s@]+\.[^\s@]+$/ })} className="w-full p-2 outline-none rounded-lg border-2" placeholder='Email'/>
                         <p className='text-red-600'>{errors.email?.type === 'required' && "Email is required"}</p>
                         <p className='text-red-600'>{errors.email?.type === 'pattern' && "Invalid Email"}</p>
@@ -31,6 +42,7 @@ const Login = () => {
                         <p className='text-red-600'>{errors.password?.type === 'pattern' && "Password  must be 8 or more characters, at least one letter and one number"}</p>
                     </div>
                     <div className=''>
+                        <p className='text-red-600'>{loginError?loginError.message:''}</p>
                         <input type="submit" value="Login"className="w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white" />
                     </div>
                 </form>
