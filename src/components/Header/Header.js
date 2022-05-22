@@ -22,10 +22,10 @@ const Header = () => {
             items-center
             justify-between
             py-4
-            bg-white
-            text-gray-500
-            hover:text-gray-700
-            focus:text-gray-700
+            bg-[#605C3C]
+            text-white
+            hover:text-white
+            focus:text-white
             navbar navbar-expand-lg navbar-light
             ">
                 <div className="container-fluid w-full flex flex-wrap items-center justify-between px-6">
@@ -54,30 +54,30 @@ const Header = () => {
                         {/* <!-- Left links --> */}
                         {
                             user?.uid&&(
-                            <ul className="navbar-nav flex flex-col justify-center pl-0 list-style-none mx-auto text-pink-600">
+                            <ul className="navbar-nav flex flex-col justify-center pl-0 list-style-none mx-auto text-white">
                                 <li className="nav-item px-2  my-3 md:m-0">
                                     <CustomLink className="nav-link active" to={'/manageitems'}>
                                         Manage items
                                     </CustomLink>
                                 </li>
                                 <li className="nav-item px-2 mb-3 md:m-0">
-                                    <CustomLink className="nav-link active" aria-current="page" to={'/additem'}>Add Item</CustomLink>
+                                    <CustomLink className="nav-link" aria-current="page" to={'/additem'}>Add Item</CustomLink>
                                 </li>
                                 <li className="nav-item px-2 mb-3 md:m-0">
-                                    <CustomLink className="nav-link active" aria-current="page" to={'/myitems'}>My Items</CustomLink>
+                                    <CustomLink className="nav-link" aria-current="page" to={'/myitems'}>My Items</CustomLink>
                                 </li>
                                 <li className="nav-item px-2 mb-3 md:m-0">
-                                    <CustomLink className="nav-link active" aria-current="page" to={'/mynotes'}>My Notes</CustomLink>
+                                    <CustomLink className="nav-link" aria-current="page" to={'/mynotes'}>My Notes</CustomLink>
                                 </li>
                             </ul>
                             )
                         }
                         {/* <!-- Left links --> */}
                         {/* Right links */}
-                        <ul className="navbar-nav flex flex-col pl-0 list-style-none ml-auto text-pink-600">
+                        <ul className="navbar-nav flex flex-col pl-0 list-style-none ml-auto text-white">
 
                             <li className="nav-item px-2 mb-3 md:m-0">
-                                <CustomLink className="nav-link active" aria-current="page" to={'/blogs'}>Blogs</CustomLink>
+                                <CustomLink className="nav-link" aria-current="page" to={'/blogs'}>Blogs</CustomLink>
                             </li>
                             <li className="nav-item px-2  mb-3 md:m-0 flex items-center"> 
                                     {
@@ -88,7 +88,7 @@ const Header = () => {
                                     }
                                 
                                 {
-                                    user?.uid?<button className='bg-gray-300 text-black font-bold py-1 px-2 rounded' onClick={()=>signOut(auth)}>Logout<FontAwesomeIcon icon={faSignOut}/></button>:
+                                    user?.uid?<button className='bg-gray-300 text-white font-bold py-1 px-2 rounded' onClick={()=>signOut(auth)}>Logout<FontAwesomeIcon icon={faSignOut}/></button>:
                                     <CustomLink className="nav-link py-2 px-2  text-white" aria-current="page" to={'/login'} >
                                     LogIn
                                     <FontAwesomeIcon className='ml-1' icon={faSignIn}/>
