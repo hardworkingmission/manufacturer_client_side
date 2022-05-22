@@ -4,7 +4,7 @@ import { faGlobe,faFlag,faUser,faComments } from '@fortawesome/free-solid-svg-ic
 
 const BusinessSummary = () => {
     const summaries=[
-        {id:1,icon:faGlobe,title:"Continents",quantity:6},
+        {id:1,icon:faGlobe,title:"Continents",quantity:5},
         {id:2,icon:faFlag,title:"Countries",quantity:150},
         {id:3,icon:faUser,title:"Clients",quantity:750},
         {id:3,icon:faComments,title:"Feedbacks",quantity:1000},

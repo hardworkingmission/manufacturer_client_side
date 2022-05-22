@@ -2,6 +2,7 @@ import React from 'react';
 import CustomCarousel from '../../components/CustomCarousel/CustomCarousel';
 import BusinessSummary from '../BusinessSummary/BusinessSummary';
 import Parts from '../Parts/Parts';
+import Reviews from '../Reviews/Reviews';
 
 const Home = () => {
     return (
@@ -14,6 +15,9 @@ const Home = () => {
             </section>
             <section className='business-summary'>
                 <BusinessSummary/>
+            </section>
+            <section className='client-reviews'>
+                <Reviews/>
             </section>
         </div>
     );
