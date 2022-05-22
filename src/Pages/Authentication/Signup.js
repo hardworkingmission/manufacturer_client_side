@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useCreateUserWithEmailAndPassword,useUpdateProfile } from 'react-firebase-hooks/auth';
+import CustomSpinner from '../../components/CustomSpinner/CustomSpinner'
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 
 const Signup = () => {
@@ -14,10 +15,18 @@ const Signup = () => {
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     //const [error,setError]=useState('')
     const { register, formState: { errors },getValues, handleSubmit,watch} = useForm();
+    const navigate=useNavigate()
+
     const onSubmit=async(data)=>{
         const {email,name,password}=data
         await createUserWithEmailAndPassword(email,password)
         updateProfile({ displayName:name})
+    }
+    if(signupLoading||updating){
+        return <CustomSpinner/>
+    }
+    if(signupUser){
+        navigate('/')
     }
     return (
         <div className='my-5 flex justify-center'>
