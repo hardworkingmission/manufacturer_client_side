@@ -7,6 +7,8 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { Route, Routes } from 'react-router-dom';
 import Signup from './Pages/Authentication/Signup';
 import Login from './Pages/Authentication/Login';
+import Purchase from './Pages/Purchase/Purchase';
+import RequireAuth from './components/RequireAuth/RequireAuth'
 
 
 function App() {
@@ -17,6 +19,11 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/purchase/:id' element={
+          <RequireAuth>
+            <Purchase/>
+          </RequireAuth>
+        }/>
       </Routes>
       <Footer/>
     </div>

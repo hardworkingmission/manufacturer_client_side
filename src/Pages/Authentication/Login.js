@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link,useLocation,useNavigate } from 'react-router-dom';
 import { useSignInWithEmailAndPassword,useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,11 +20,22 @@ const Login = () => {
     );
     const [email,setEmail]=useState('')
     const { register, formState: { errors }, handleSubmit,reset} = useForm();
-    const navigate=useNavigate()
+
+    //redirecct to the destination
+    let navigate=useNavigate()
+    let location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+    if(loginUser){
+        navigate(from, { replace: true });
+        reset()
+    }
+
     const onSubmit=(data)=>{
         const {email,password}=data
         signInWithEmailAndPassword(email,password)
     }
+
+    //reset email send
     const resetUserPassword=async()=>{
         if(email){
             await sendPasswordResetEmail(email)
@@ -34,19 +45,14 @@ const Login = () => {
         }else{
             toast.error("Please enter email fist")
         }
-        
-
     }
     if(loginLoading||sending){
         return <CustomSpinner/>
     }
-    if(loginUser){
-        navigate('/')
-        reset()
-    }
+    
 
     return (
-        <div className=' w-5/6 mx-auto my-5 flex justify-center'>
+        <div className='w-5/6 mx-auto my-5 flex justify-center'>
             <ToastContainer/>
             <div className="p-5 rounded-lg lg:w-2/6 md:w-1/2 w-full shadow-lg">
                 <form onSubmit={handleSubmit(onSubmit)} >
