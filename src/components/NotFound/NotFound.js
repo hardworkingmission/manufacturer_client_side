@@ -9,7 +9,7 @@ const NotFound = () => {
                 <img src={error404} alt="" className='w-full h-[400px]' />
             </div>
             <div className="home-link text-center">
-                <Link className='bg-blue-400 text-2xl font-bold py-3 px-4 rounded-lg text-white' to={'/'}>Back To Home</Link>
+                <Link className='bg-[#605C3C] text-2xl font-bold py-3 px-4 rounded-lg text-white' to={'/'}>Back To Home</Link>
             </div>
             
         </div>

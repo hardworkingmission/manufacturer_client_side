@@ -52,31 +52,17 @@ const Header = () => {
                         <Link className="" to={'/'}>
                             Xtreme Computers
                         </Link>
-                        {/* <!-- Left links --> */}
-                        {
-                            user?.uid&&(
-                            <ul className="navbar-nav flex flex-col justify-center pl-0 list-style-none mx-auto text-white">
-                                <li className="nav-item px-2  my-3 md:m-0">
-                                    <CustomLink className="nav-link active" to={'/manageitems'}>
-                                        Manage items
-                                    </CustomLink>
-                                </li>
-                                <li className="nav-item px-2 mb-3 md:m-0">
-                                    <CustomLink className="nav-link" aria-current="page" to={'/additem'}>Add Item</CustomLink>
-                                </li>
-                                <li className="nav-item px-2 mb-3 md:m-0">
-                                    <CustomLink className="nav-link" aria-current="page" to={'/myitems'}>My Items</CustomLink>
-                                </li>
-                                <li className="nav-item px-2 mb-3 md:m-0">
-                                    <CustomLink className="nav-link" aria-current="page" to={'/mynotes'}>My Notes</CustomLink>
-                                </li>
-                            </ul>
-                            )
-                        }
-                        {/* <!-- Left links --> */}
+                        
                         {/* Right links */}
                         <ul className="navbar-nav flex flex-col pl-0 list-style-none ml-auto text-white">
+                            {
+                                user?.uid&&(
+                                    <li className="nav-item px-2 mb-3 md:m-0">
+                                        <CustomLink className="nav-link" aria-current="page" to={'/dashboard'}>Dashboard</CustomLink>
+                                    </li>
+                                )
 
+                            }
                             <li className="nav-item px-2 mb-3 md:m-0">
                                 <CustomLink className="nav-link" aria-current="page" to={'/blogs'}>Blogs</CustomLink>
                             </li>

@@ -9,6 +9,7 @@ import Signup from './Pages/Authentication/Signup';
 import Login from './Pages/Authentication/Login';
 import Purchase from './Pages/Purchase/Purchase';
 import RequireAuth from './components/RequireAuth/RequireAuth'
+import NotFound from './components/NotFound/NotFound';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Purchase/>
           </RequireAuth>
         }/>
+        <Route path='*' element={<NotFound/>}/>
       </Routes>
       <Footer/>
     </div>

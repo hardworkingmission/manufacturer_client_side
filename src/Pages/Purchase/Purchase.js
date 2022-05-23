@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import auth from '../../firebase.init';
@@ -10,6 +12,7 @@ const Purchase = () => {
     const {id}=useParams()
     const [partsItem,setPartsItem]=useState({})
     const [quantity,setQuantity]=useState(0)
+    const [maxQuantity,setMaxQuantity]=useState(0)
     const [agree,setAgree]=useState(false)
     useEffect(()=>{
         fetch(`http://localhost:5000/partsItemById/${id}`)
@@ -17,6 +20,7 @@ const Purchase = () => {
            .then(data=>{
                setPartsItem(data)
                setQuantity(data.minQuantity)
+               setMaxQuantity(data.availableQuantity-data.minQuantity)
             })
 
     },[id])
@@ -31,9 +35,10 @@ const Purchase = () => {
     //console.log('ok',quantity)
     if(quantity<availableQuantity){
         setQuantity(parseInt(quantity)+1)
+        setMaxQuantity(maxQuantity-1)
     }else{
         setQuantity(availableQuantity)
-        alert('You Can not buy more than available quantity')
+        toast.error('You Can not order more than available quantity')
         
     }
 }
@@ -42,9 +47,10 @@ const Purchase = () => {
         //console.log('ok',quantity)
         if(quantity>minQuantity){
             setQuantity(parseInt(quantity)-1)
+            setMaxQuantity(maxQuantity+1)
         }else{
             setQuantity(minQuantity)
-            alert('You Can not buy less than minimum quantity')
+            toast.error('You Can not order less than minimum quantity')
             // setAgree(true)
         }
     }
@@ -52,17 +58,26 @@ const Purchase = () => {
     const { register, formState: { errors },getValues, handleSubmit,watch,reset} = useForm();
 
     const onSubmit=(data)=>{
-        const order={
-            ...data,
-            partsId:_id,
-            purchaseQuantity:quantity
+        if(quantity>=minQuantity&&quantity<=availableQuantity){
+            const order={
+                ...data,
+                partsId:_id,
+                purchaseQuantity:quantity
+            }
+            console.log(order)
+
+        }else{
+            quantity>availableQuantity?toast.error(`You Can not order more than available quantity`):toast.error('You Can not order less than minimum quantity')
+            setQuantity(minQuantity)
         }
-        console.log(order)
+        
+        
     }
    
     
     return (
         <div className='w-5/6 mx-auto flex justify-center my-5'>
+            <ToastContainer/>
             <div className='lg:w-4/6 md:w-5/6 w-full rounded-lg shadow-lg border-2'>
                 {/* parts detail */}
                 <div className='text-center'>
@@ -72,14 +87,14 @@ const Purchase = () => {
                     <div className='item-info p-5'>
                         <h3 className='font-bold text-lg'>{name}</h3>
                         <h4><span className='font-bold '>Minimum Quantity:</span> {minQuantity}</h4>
-                        <h4><span className='font-bold '>Available Quantity:</span> {availableQuantity}</h4>
+                        <h4><span className='font-bold '>Available Quantity:</span> {maxQuantity}</h4>
                         <h4><span className='font-bold '>Price:</span> ${price}</h4>
                     </div>
                     <div className='text-center'>
                         <h1 className='font-bold text-lg'>Purchase Quantity</h1>
                         <div className='flex items-center justify-center'>
                             <button className={`text-2xl py-1.4 px-2 rounded-lg ${quantity<=minQuantity?'bg-gray-600':'bg-[#605C3C] text-white'}`} onClick={decreasePurchaseQuantity} disabled={quantity<minQuantity&&true}>-</button>
-                            <input type="text" className='p-1.5 border-2 w-[100px] mx-2 rounded-lg text-center' value={quantity} onChange={(e)=>setQuantity(parseInt(e.target.value))}/>
+                            <input type="text" className='p-1.5 border-2 w-[100px] mx-2 rounded-lg text-center' value={quantity}/>
                             <button className={`text-2xl py-1.4 px-2 rounded-lg ${quantity>=availableQuantity?'bg-gray-600':'bg-[#605C3C] text-white'}`} onClick={increasePurchaseQuantity} disabled={quantity>availableQuantity&&true}>+</button>
                         </div> 
                     </div>
