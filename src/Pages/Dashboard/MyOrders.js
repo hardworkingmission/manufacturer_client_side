@@ -8,14 +8,22 @@ import { faTrash,faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import auth from '../../firebase.init';
 import CustomConfirm from '../../components/CustomConfirm/CustomConfirm'
+import { useNavigate } from 'react-router-dom';
 
 const MyOrders = () => {
     const [user, loading, authError] = useAuthState(auth);
     const [modalIsOpen,setModalIsOpen]=useState(false)
     const [orderId,setOrderId]=useState('')
+    const navigate=useNavigate()
 
     const {data:orders,isLoading,error,refetch}=useQuery('orders',()=>(
-        fetch(`http://localhost:5000/orders?user=${user?.email}`)
+        fetch(`http://localhost:5000/orders?user=${user?.email}`,{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                authorization:`Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
             .then(res=>res.json())
 
     ))
@@ -45,14 +53,11 @@ const MyOrders = () => {
         }
 
     }
-
-
     const deleteOrder=(id)=>{
         setOrderId(id)
         setModalIsOpen(true)
 
     }
-
     const closeModal=()=>{
         setModalIsOpen(false)
         
@@ -100,7 +105,7 @@ const MyOrders = () => {
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-wrap ">
                                        <div className='flex items-center'>
-                                            <FontAwesomeIcon role={'button'} icon={faCreditCard} className='text-lg text-green-400' />
+                                            <FontAwesomeIcon role={'button'} icon={faCreditCard} className='text-lg text-green-400' onClick={()=>navigate(`payment/${order._id}`)}/>
                                             <FontAwesomeIcon role={'button'} icon={faTrash} className='text-lg text-red-600 ml-5' onClick={()=>deleteOrder(order._id)}/>
                                        </div>
                                        

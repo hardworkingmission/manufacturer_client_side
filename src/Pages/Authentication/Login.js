@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link,useLocation,useNavigate } from 'react-router-dom';
 import { useSignInWithEmailAndPassword,useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { ToastContainer, toast } from 'react-toastify';
@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import auth from '../../firebase.init';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import SocialLogin from './SocialLogin';
+import useToken from '../../hooks/useToken/useToken';
 
 const Login = () => {
     const [
@@ -20,15 +21,20 @@ const Login = () => {
     );
     const [email,setEmail]=useState('')
     const { register, formState: { errors }, handleSubmit,reset} = useForm();
+    const[token]=useToken(loginUser)
 
     //redirecct to the destination
     let navigate=useNavigate()
     let location = useLocation();
     let from = location.state?.from?.pathname || "/";
-    if(loginUser){
-        navigate(from, { replace: true });
-        reset()
-    }
+    useEffect(()=>{
+        if(token){
+            navigate(from, { replace: true });
+            reset()
+        }
+
+    },[from,navigate,reset,token])
+    
 
     const onSubmit=(data)=>{
         const {email,password}=data
