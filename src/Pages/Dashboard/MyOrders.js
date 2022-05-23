@@ -1,30 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useQuery } from 'react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash,faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import auth from '../../firebase.init';
-import useParts from '../../hooks/useParts/useParts';
+import CustomConfirm from '../../components/CustomConfirm/CustomConfirm'
 
 const MyOrders = () => {
     const [user, loading, authError] = useAuthState(auth);
+    const [modalIsOpen,setModalIsOpen]=useState(false)
+    const [orderId,setOrderId]=useState('')
 
-    const {data:orders,isLoading,error}=useQuery('orders',()=>(
+    const {data:orders,isLoading,error,refetch}=useQuery('orders',()=>(
         fetch(`http://localhost:5000/orders?user=${user?.email}`)
             .then(res=>res.json())
 
     ))
-    // const[parts,queryLoading,queryError,queryRefetch]=useParts()
-    // const partsId=orders?.map(order=>order?.partsId)
-    // const orderedParts=partsId?.map(id=>parts?.find(part=>part?._id===id))
     
     if(isLoading||loading){
         return <CustomSpinner/>
     }
+
+    //delete an item
+    const handleConfirm=(confirm)=>{
+        if(confirm){
+            setModalIsOpen(false)
+            console.log(orderId)
+            fetch(`http://localhost:5000/deleteOrder/${orderId}`,{
+                method:"DELETE",
+                headers:{
+                    'content-type':'application/json'
+                }
+            }).then(res=>res.json())
+               .then(data=>{
+                   if(data.deletedCount===1){
+                       toast.success('The order is deleted successfully')
+                       refetch()
+                   }
+               })
+
+        }
+
+    }
+
+
+    const deleteOrder=(id)=>{
+        setOrderId(id)
+        setModalIsOpen(true)
+
+    }
+
+    const closeModal=()=>{
+        setModalIsOpen(false)
+        
+    }
     return (
         <div>
             <div class="flex flex-col">
+                <ToastContainer/>
+                <CustomConfirm closeModal={closeModal}modalIsOpen={modalIsOpen}handleConfirm={handleConfirm}/>
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="overflow-hidden">
@@ -63,8 +100,8 @@ const MyOrders = () => {
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-wrap ">
                                        <div className='flex items-center'>
-                                            <FontAwesomeIcon role={'button'} icon={faCreditCard} className='text-lg text-green-400'/>
-                                            <FontAwesomeIcon role={'button'} icon={faTrash} className='text-lg text-red-600 ml-5'/>
+                                            <FontAwesomeIcon role={'button'} icon={faCreditCard} className='text-lg text-green-400' />
+                                            <FontAwesomeIcon role={'button'} icon={faTrash} className='text-lg text-red-600 ml-5' onClick={()=>deleteOrder(order._id)}/>
                                        </div>
                                        
                                     </td>
