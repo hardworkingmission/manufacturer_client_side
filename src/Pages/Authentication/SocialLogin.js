@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToken/useToken';
 
 const SocialLogin = () => {
     const [signInWithGoogle, socialLoginUser, socialLoginLoading, socialLoginError] = useSignInWithGoogle(auth);
+    const[token]=useToken(socialLoginUser)
 
     //redirect to desnation
     const navigate=useNavigate()
     let location = useLocation();
     let from = location.state?.from?.pathname || "/";
 
-    if(socialLoginUser){
-        navigate(from, { replace: true });
-    }
+    useEffect(()=>{
+        if(token){
+            navigate(from, { replace: true });
+        }
+    },[token,navigate,from])
+
+    
     
     const handleSignInWithGoogle=()=>{
         signInWithGoogle()

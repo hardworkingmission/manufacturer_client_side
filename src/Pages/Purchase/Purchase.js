@@ -73,7 +73,8 @@ const Purchase = () => {
             fetch('http://localhost:5000/order',{
                 method:"POST",
                 headers:{
-                    "content-type":"application/json"
+                    "content-type":"application/json",
+                    authorization:`Bearer ${localStorage.getItem('accessToken')}`
                 },
                 body:JSON.stringify(order)
 
@@ -145,7 +146,7 @@ const Purchase = () => {
                             <p className='text-red-600'>{errors.address?.type === 'required' && "Address is required"}</p>
                         </div>
                         <div className=''>
-                            <input type="submit" value="Complete"className="w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white" />
+                            <input type="submit" value="Complete Order"className="w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white cursor-pointer" />
                         </div>
                     </form>
                 </div>

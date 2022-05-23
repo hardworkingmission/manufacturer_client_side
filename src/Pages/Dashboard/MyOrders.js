@@ -40,7 +40,8 @@ const MyOrders = () => {
             fetch(`http://localhost:5000/deleteOrder/${orderId}`,{
                 method:"DELETE",
                 headers:{
-                    'content-type':'application/json'
+                    'content-type':'application/json',
+                    authorization:`Bearer ${localStorage.getItem('accessToken')}`
                 }
             }).then(res=>res.json())
                .then(data=>{
@@ -105,8 +106,20 @@ const MyOrders = () => {
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-wrap ">
                                        <div className='flex items-center'>
-                                            <FontAwesomeIcon role={'button'} icon={faCreditCard} className='text-lg text-green-400' onClick={()=>navigate(`payment/${order._id}`)}/>
-                                            <FontAwesomeIcon role={'button'} icon={faTrash} className='text-lg text-red-600 ml-5' onClick={()=>deleteOrder(order._id)}/>
+                                            {
+                                                order?.paid?(
+                                                    <div className='text-center'>
+                                                        <p className='text-white bg-green-600 p-2 rounded-lg w-3/6'>Paid</p>
+                                                        <p className='flex flex-wrap'>TransactionId:{order?.transactionId}</p>
+                                                     
+                                                    </div>
+                                                    ):(
+                                                    <>
+                                                    <FontAwesomeIcon role={'button'} icon={faCreditCard} className='text-lg text-green-400' onClick={()=>navigate(`myorders/payment/${order._id}`)}/>
+                                                    <FontAwesomeIcon role={'button'} icon={faTrash} className='text-lg text-red-600 ml-5' onClick={()=>deleteOrder(order._id)}/>
+                                                    </>
+                                                )
+                                            }
                                        </div>
                                        
                                     </td>
