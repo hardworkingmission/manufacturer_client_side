@@ -75,7 +75,21 @@ const Purchase = () => {
                 body:JSON.stringify(order)
 
             }).then(res=>res.json())
-               .then(data=>console.log('completed',data))
+               .then(data=>{
+                   if(data){
+                       const currentAvailableQuantity={availableQuantity:maxQuantity}
+                        fetch(`http://localhost:5000/parts/${data?.partsId}`,{
+                            method:"PATCH",
+                            headers:{
+                                "content-type":"application/json"
+                            },
+                            body:JSON.stringify(currentAvailableQuantity)
+                        }).then(res=>res.json())
+                          .then(data=>console.log('updated',data))
+
+                   }
+                   
+               })
 
         }else{
             quantity>availableQuantity?toast.error(`You Can not order more than available quantity`):toast.error('You Can not order less than minimum quantity')
