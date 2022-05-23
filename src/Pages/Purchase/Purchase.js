@@ -13,7 +13,7 @@ const Purchase = () => {
     const [partsItem,setPartsItem]=useState({})
     const [quantity,setQuantity]=useState(0)
     const [maxQuantity,setMaxQuantity]=useState(0)
-    const [agree,setAgree]=useState(false)
+    // [agree,setAgree]=useState(false)
     useEffect(()=>{
         fetch(`http://localhost:5000/partsItemById/${id}`)
            .then(res=>res.json())
@@ -24,14 +24,16 @@ const Purchase = () => {
             })
 
     },[id])
+
     const{_id,img,name,description,minQuantity,availableQuantity,price}=partsItem
-  useEffect(()=>{
-    //console.log("ok",quantity)
-    
+    //current value
+    useEffect(()=>{
+
+    },[quantity,maxQuantity])
 
 
-  },[quantity])
-  const increasePurchaseQuantity=()=>{
+    //increase quantity
+    const increasePurchaseQuantity=()=>{
     //console.log('ok',quantity)
     if(quantity<availableQuantity){
         setQuantity(parseInt(quantity)+1)
@@ -41,8 +43,9 @@ const Purchase = () => {
         toast.error('You Can not order more than available quantity')
         
     }
-}
-    
+    }
+
+    //decrease quantity
     const decreasePurchaseQuantity=()=>{
         //console.log('ok',quantity)
         if(quantity>minQuantity){
@@ -55,7 +58,7 @@ const Purchase = () => {
         }
     }
       
-    const { register, formState: { errors },getValues, handleSubmit,watch,reset} = useForm();
+    const { register, formState: { errors }, handleSubmit,reset} = useForm();
 
     const onSubmit=(data)=>{
         if(quantity>=minQuantity&&quantity<=availableQuantity){
@@ -64,7 +67,15 @@ const Purchase = () => {
                 partsId:_id,
                 purchaseQuantity:quantity
             }
-            console.log(order)
+            fetch('http://localhost:5000/order',{
+                method:"POST",
+                headers:{
+                    "content-type":"application/json"
+                },
+                body:JSON.stringify(order)
+
+            }).then(res=>res.json())
+               .then(data=>console.log('completed',data))
 
         }else{
             quantity>availableQuantity?toast.error(`You Can not order more than available quantity`):toast.error('You Can not order less than minimum quantity')
