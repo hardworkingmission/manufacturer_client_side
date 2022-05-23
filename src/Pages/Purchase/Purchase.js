@@ -64,7 +64,10 @@ const Purchase = () => {
         if(quantity>=minQuantity&&quantity<=availableQuantity){
             const order={
                 ...data,
+                partsName:name,
                 partsId:_id,
+                img:img,
+                totalPrice:parseInt(quantity)*parseInt(price),
                 purchaseQuantity:quantity
             }
             fetch('http://localhost:5000/order',{
@@ -77,6 +80,8 @@ const Purchase = () => {
             }).then(res=>res.json())
                .then(data=>{
                    if(data){
+                       toast.success('The order is placed successfully')
+                       reset()
                        const currentAvailableQuantity={availableQuantity:maxQuantity}
                         fetch(`http://localhost:5000/parts/${data?.partsId}`,{
                             method:"PATCH",
@@ -94,9 +99,7 @@ const Purchase = () => {
         }else{
             quantity>availableQuantity?toast.error(`You Can not order more than available quantity`):toast.error('You Can not order less than minimum quantity')
             setQuantity(minQuantity)
-        }
-        
-        
+        } 
     }
    
     

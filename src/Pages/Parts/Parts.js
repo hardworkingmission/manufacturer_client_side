@@ -3,7 +3,7 @@ import useParts from '../../hooks/useParts/useParts';
 import PartsItem from './PartsItem';
 
 const Parts = () => {
-    const [parts,isLoading,error,refetch]=useParts()
+    const [parts,queryLoading,queryError,queryRefetch]=useParts()
     const shuffledParts = parts?.sort(() => 0.5 - Math.random());
     const selectedParts=shuffledParts?.slice(0,3)
     //console.log(parts)

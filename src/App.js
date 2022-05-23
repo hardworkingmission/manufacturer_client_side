@@ -10,6 +10,11 @@ import Login from './Pages/Authentication/Login';
 import Purchase from './Pages/Purchase/Purchase';
 import RequireAuth from './components/RequireAuth/RequireAuth'
 import NotFound from './components/NotFound/NotFound';
+import Dashboard from './Pages/Dashboard/Dashboard';
+import MyProfile from './Pages/Dashboard/MyProfile'
+import MyOrders from './Pages/Dashboard/MyOrders'
+import AddReview from './Pages/Dashboard/AddReview'
+
 
 
 function App() {
@@ -25,6 +30,16 @@ function App() {
             <Purchase/>
           </RequireAuth>
         }/>
+        <Route path='dashboard' element={
+          <RequireAuth>
+            <Dashboard/>
+          </RequireAuth>
+        }>
+          <Route path='myprofile' element={<MyProfile/>}/>
+          <Route path='myorders' element={<MyOrders/>}/>
+          <Route path='addreview' element={<AddReview/>}/>
+
+        </Route>
         <Route path='*' element={<NotFound/>}/>
       </Routes>
       <Footer/>
