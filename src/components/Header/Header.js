@@ -12,7 +12,12 @@ import { signOut } from 'firebase/auth';
 
 const Header = () => {
     const [user, loading, error] = useAuthState(auth);
-    console.log(user)
+    //console.log(user)
+    const logOut=()=>{
+        signOut(auth)
+        localStorage.removeItem('accessToken')
+
+    }
     return (
      
         <nav className="
@@ -75,7 +80,7 @@ const Header = () => {
                                     }
                                 
                                 {
-                                    user?.uid?<button className='bg-gray-300 text-white font-bold py-1 px-2 rounded' onClick={()=>signOut(auth)}>Logout<FontAwesomeIcon className='ml-1' icon={faSignOut}/></button>:
+                                    user?.uid?<button className='bg-gray-300 text-white font-bold py-1 px-2 rounded' onClick={logOut}>Logout<FontAwesomeIcon className='ml-1' icon={faSignOut}/></button>:
                                     <CustomLink className="nav-link py-2 px-2  text-white" aria-current="page" to={'/login'} >
                                     LogIn
                                     <FontAwesomeIcon className='ml-1' icon={faSignIn}/>
