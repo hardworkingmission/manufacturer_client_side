@@ -15,9 +15,13 @@ const Purchase = () => {
     const [maxQuantity,setMaxQuantity]=useState(0)
     // [agree,setAgree]=useState(false)
     useEffect(()=>{
-        fetch(`http://localhost:5000/partsItemById/${id}`)
-           .then(res=>res.json())
-           .then(data=>{
+        fetch(`http://localhost:5000/partsItemById/${id}`,{
+            headers:{
+                "content-type":"application/json",
+                authorization:`Bearer ${localStorage.getItem('accessToken')}`
+            }
+        }).then(res=>res.json())
+          .then(data=>{
                setPartsItem(data)
                setQuantity(data.minQuantity)
                setMaxQuantity(data.availableQuantity-data.minQuantity)

@@ -30,7 +30,7 @@ const CustomModal = ({closeModal,modalIsOpen,children}) => {
         onRequestClose={closeModal}
         style={customStyles}
         >
-            <div className='h-[300px] lg:w-[400px] relvative flex items-center justify-center'>
+            <div className='h-[400px] lg:w-[400px] relvative'>
                 <FontAwesomeIcon role={'button'} onClick={()=>closeModal()} icon={faClose} className='absolute top-[2%] right-[2%] h-[20px] w-[20px] text-red-600'/>
                 {children}
             </div>
