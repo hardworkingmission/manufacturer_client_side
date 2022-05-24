@@ -75,7 +75,7 @@ const Login = () => {
                     </div>
                     <div className=''>
                         <p className='text-red-600'>{loginError?loginError.message:''||error?error.message:''}</p>
-                        <input type="submit" value="Login"className="w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white" />
+                        <input type="submit" value="Login"className=" cursor-pointer w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white" />
                     </div>
                 </form>
                 <div className='mt-1 text-right'>

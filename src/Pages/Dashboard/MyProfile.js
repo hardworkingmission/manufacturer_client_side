@@ -6,18 +6,12 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useQuery } from 'react-query';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
+import useProfile from '../../hooks/useProfile/useProfile';
 
 const MyProfile = () => {
     const [user, loading, error] = useAuthState(auth);
     const { register, formState: { errors }, handleSubmit,reset} = useForm();
-    const {data:profileData,isLoading,error:queryError,refetch}=useQuery('profile',()=>(
-        fetch(`http://localhost:5000/myprofile?email=${user?.email}`,{
-                    headers:{
-                        authorization:`Bearer ${localStorage.getItem('accessToken')}`,
-                    }
-                }).then(res=>res.json())
-    ))
-
+    const [profileData,isLoading,queryError,refetch]=useProfile(user)
     const onSubmit=(data)=>{
         //console.log(Object.values(data))
         
@@ -27,29 +21,36 @@ const MyProfile = () => {
                 email:data?.uEmail,
                 phone:data?.uPhone,
                 address:data?.uAddress,
+                socialMediaProfile:data?.uSocialMediaProfile
             }
-            if(data.uPhone||data.uAddresse){
-                fetch('http://localhost:5000/myprofile',{
-                    method:"POST",
-                    headers:{
-                        "content-type":"application/json",
-                        authorization:`Bearer ${localStorage.getItem('accessToken')}`
-                    },
-                    body:JSON.stringify(profileInfo)
-                }).then(res=>res.json())
-                   .then(data=>{
-                       if(data){
-                        toast.success('Profile info added successfully')
-                        refetch()
-                        setAdd(false)
-                        reset()
-                       }
-                   })
-                console.log(profileInfo)
-               
+            if(!profileData){
+                if(data.uPhone||data.uAddresse){
+                    fetch('http://localhost:5000/myprofile',{
+                        method:"POST",
+                        headers:{
+                            "content-type":"application/json",
+                            authorization:`Bearer ${localStorage.getItem('accessToken')}`
+                        },
+                        body:JSON.stringify(profileInfo)
+                    }).then(res=>res.json())
+                       .then(data=>{
+                           if(data){
+                            toast.success('Profile info added successfully')
+                            refetch()
+                            setAdd(false)
+                            reset()
+                           }
+                       })
+                    console.log(profileInfo)
+                   
+                }else{
+                    toast.error('No data is provided to complete the profile')
+                }
             }else{
-                toast.error('No data is provided to complete the profile')
+                toast.error('Information is added already.You can update your profile only')
+
             }
+            
         }
         //update profile
         if(update){
@@ -58,6 +59,7 @@ const MyProfile = () => {
                 email:data?.email,
                 phone:data?.phone,
                 address:data?.address,
+                socialMediaProfile:data?.socialMediaProfile
             }
             fetch(`http://localhost:5000/updateprofile/${data?.email}`,{
                     method:"PUT",
@@ -106,6 +108,8 @@ const MyProfile = () => {
                                 <p>{profileData?.address}</p>
                             </address>
                             <p>Phone:{profileData?.phone}</p>
+                            <a href={profileData?.socialMediaProfile} target="_blank" rel="noopener noreferrer" className='underline text-blue-600'>Linkedin</a>
+                            
                         </div>
                     ):(
                         <div>
@@ -144,6 +148,9 @@ const MyProfile = () => {
                         <div className='mb-2'>
                             <textarea rows={3} {...register("uAddress",)} className="w-full p-2 outline-none border-b-2" placeholder='Your Address'/>
                         </div>
+                        <div className='mb-2'>
+                            <input {...register("uSocialMediaProfile",)} className="w-full p-2 outline-none border-b-2" placeholder='Your Linkedin Address' defaultValue={profileData?.socialMediaProfile}/>
+                        </div>
                         
                         <div className=''>
                             <input type="submit" value="Save"className="w-2/6 p-2 outline-none rounded-lg bg-[#605C3C] text-white cursor-pointer" />
@@ -168,6 +175,9 @@ const MyProfile = () => {
                         </div>
                         <div className='mb-2'>
                             <textarea rows={3} {...register("address",)} className="w-full p-2 outline-none border-b-2" placeholder='Your Address' defaultValue={profileData?.address}/>
+                        </div>
+                        <div className='mb-2'>
+                            <input {...register("socialMediaProfile",)} className="w-full p-2 outline-none border-b-2" placeholder='Your Linkedin Address' defaultValue={profileData?.socialMediaProfile}/>
                         </div>
                         <div className=''>
                             <input type="submit" value="Update"className="w-2/6 p-2 outline-none rounded-lg bg-[#605C3C] text-white cursor-pointer" />
