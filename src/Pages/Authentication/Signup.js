@@ -65,7 +65,7 @@ const Signup = () => {
                     </div>
                     <div className=''>
                         <p className='text-red-600'>{signupError?signupError.message:''||updateError?updateError.message:''}</p>
-                        <input type="submit" value="Sign Up"className="w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white" />
+                        <input type="submit" value="Sign Up"className="w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white cursor-pointer" />
                     </div>
                 </form>
                 <div className='flex justify-center items-center my-3'>

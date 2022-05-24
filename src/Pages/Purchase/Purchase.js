@@ -111,7 +111,7 @@ const Purchase = () => {
                 {/* parts detail */}
                 <div className='text-center'>
                     <div className="item-img flex justify-center">
-                        <img src={process.env.PUBLIC_URL+`/parts/${img}`} alt="" className='h-[200px] w-[200px]' />
+                        <img src={img} alt="" className='h-[200px] w-[200px]' />
                     </div>
                     <div className='item-info p-5'>
                         <h3 className='font-bold text-lg'>{name}</h3>

@@ -1,56 +1,56 @@
 [
     {
-        "id":1,
+        
         "name":"Gigabyte H310M M.2 9th Gen Micro ATX Motherboard",
-        "img":"h310m-m2-500x500.jpg",
+        "img":"https://i.ibb.co/JttT4ns/h310m-m2-500x500.jpg",
         "description":"Model: H310M , Supports 9th and 8th Gen Intel Core Processors,  Chipset: Intel H310 Express Chipset CEC 2019, Ready 2 x DIMM, Max. 32GB DDR4",
         "minQuantity":1200,
-        "availableQuantity":20000,
+        "availableQuantity":2000,
         "price":150
     },
     {
-        "id":2,
+        
         "name":"MSI B560M PRO 10th and 11th Gen Micro ATX Motherboard",
-        "img":"b560m-pro-500x500.jpg",
+        "img":"https://i.ibb.co/5R9wfGT/b560m-pro-500x500.jpg",
         "description":"Model: B560M PRO , Supports: 10th & 11th Gen Core, Pentium Gold & Celeron processors,  Chipset: Intel H310 Express Chipset CEC 2019, Ready 2 x DIMM, Max. 64GB DDR4",
         "minQuantity":50,
-        "availableQuantity":5000,
+        "availableQuantity":100,
         "price":250
     },
     {
-        "id":3,
+        
         "name":"Samsung 970 EVO Plus NVMe M.2 250GB SSD",
-        "img":"250gb-plus-500x500.png",
+        "img":"https://i.ibb.co/hyD8vDY/250gb-plus-500x500.png",
         "description":"Model: 970 EVO Plus, Capacity 250GB, Form Factor M.2 (2280), Interface PCIe Gen 3.0 x 4, NVMe 1.3",
         "minQuantity":200,
-        "availableQuantity":9000,
+        "availableQuantity":1000,
         "price":75
     },
     {
-        "id":4,
+        
         "name":"Corsair Dominator Platinum RGB 16GB 3200MHz DDR4 RAM",
-        "img":"dominator-platinum-500x500.jpg",
+        "img":"https://i.ibb.co/TBYgLqM/dominator-platinum-500x500.jpg",
         "description":"MPN: CMT32GX4M2C3200C16, Model: Dominator Platinum RGB, 16GB DDR4 3200MHz, Tested Voltage: 1.35V, Package Memory Format: DIMM, Heat Spreader: Anodized Aluminum",
         "minQuantity":300,
-        "availableQuantity":10000,
+        "availableQuantity":700,
         "price":150
     },
     {
-        "id":5,
+        
         "name":"Gigabyte GeForce RTX 3050 Gaming OC 8GB GDDR6 Graphics Card",
-        "img":"rtx-3050-gaming-oc-01-500x500.jpg",
+        "img":"https://i.ibb.co/0j3K1H1/rtx-3050-gaming-oc-01-500x500.jpg",
         "description":"MPN: GV-N3050GAMING OC-8GD Model: GeForce RTX 3050 GAMING OC 8G Core Clock: 1822 MHz (Reference Card: 1777 MHz) 2nd Gen RT Cores & 3rd Gen Tensor Cores WINDFORCE 3X Cooling System RGB Fusion 2.0",
         "minQuantity":30,
-        "availableQuantity":1000,
+        "availableQuantity":600,
         "price":500
     },
     {
-        "id":6,
+        
         "name":"Antec DF800 FLUX Mid-Tower Gaming Case",
-        "img":"df800-flux-01-500x500.jpg",
+        "img":"https://i.ibb.co/J3ThgLP/df800-flux-01-500x500.jpg",
         "description":"Model: DF800 FLUX Motherboard Support: ATX , Micro-ATX, Mini-ITX Power, Reset, 2 x USB3.0, MIC/ HD-AUDIO Ports 4 mm Tempered Glass Side Panel 1 x 120 mm fan in rear",
         "minQuantity":100,
-        "availableQuantity":11000,
+        "availableQuantity":1000,
         "price":110
     }
 ]
