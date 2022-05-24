@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useCreateUserWithEmailAndPassword,useUpdateProfile } from 'react-firebase-hooks/auth';
+import { useAuthState, useCreateUserWithEmailAndPassword,useUpdateProfile } from 'react-firebase-hooks/auth';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner'
 import { useForm } from "react-hook-form";
 import { Link,useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 import SocialLogin from './SocialLogin';
+import { signOut } from 'firebase/auth';
 
 const Signup = () => {
+    const [user, loading, error] = useAuthState(auth);
     const [
         createUserWithEmailAndPassword,
         signupUser,
@@ -27,7 +29,8 @@ const Signup = () => {
         return <CustomSpinner/>
     }
     if(signupUser){
-        navigate('/')
+        signOut(auth)
+        navigate('/login')
         reset()
     }
     return (

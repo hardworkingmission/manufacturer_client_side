@@ -15,6 +15,12 @@ import MyProfile from './Pages/Dashboard/MyProfile'
 import MyOrders from './Pages/Dashboard/MyOrders'
 import AddReview from './Pages/Dashboard/AddReview'
 import Payment from './Pages/Dashboard/Payment';
+import AddProduct from './Pages/Dashboard/Admin/AddProduct'
+import MakeAdmin from './Pages/Dashboard/Admin/MakeAdmin'
+import ManageAllOrders from './Pages/Dashboard/Admin/ManageAllOrders'
+import ManageProducts from './Pages/Dashboard/Admin/ManageProducts'
+import RequireAdmin from './components/RequireAdmin/RequireAdmin';
+
 
 
 
@@ -41,6 +47,26 @@ function App() {
           <Route index path='myorders' element={<MyOrders/>}/>
           <Route path='addreview' element={<AddReview/>}/>
           <Route path='myorders/payment/:id' element={<Payment/>}/>
+          <Route path='addproduct' element={
+            <RequireAdmin>
+              <AddProduct/>
+            </RequireAdmin>
+          }/>
+          <Route path='makeadmin' element={
+            <RequireAdmin>
+              <MakeAdmin/>
+            </RequireAdmin>
+          }/>
+          <Route path='manageallorders' element={
+            <RequireAdmin>
+              <ManageAllOrders/>
+            </RequireAdmin>
+          }/>
+          <Route path='manageproducts' element={
+             <RequireAdmin>
+               <ManageProducts/>
+             </RequireAdmin>
+             }/>
 
         </Route>
         <Route path='*' element={<NotFound/>}/>

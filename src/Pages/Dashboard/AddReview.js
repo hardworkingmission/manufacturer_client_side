@@ -10,6 +10,7 @@ const AddReview = () => {
     const [user, loading, error] = useAuthState(auth);
     const { register, formState: { errors }, handleSubmit,reset} = useForm();
     const [profileData,isLoading,queryError,refetch]=useProfile(user)
+    
     const onSubmit=(data)=>{
         const reviewInfo={
             ...data,
@@ -27,6 +28,7 @@ const AddReview = () => {
            .then(data=>{
                if(data){
                    toast.success('Review is added successfully!')
+                   reset()
                }
            })
 

@@ -9,8 +9,6 @@ const Reviews = () => {
            .then(data=>setReviews(data))
 
     },[])
-    const shuffledReviews = reviews?.sort(() => 0.5 - Math.random());
-    const selectedReviews=shuffledReviews?.slice(0,3)
     return (
         <div className='my-5'>
         <div className='text-center my-3'>
