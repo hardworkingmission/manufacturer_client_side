@@ -67,11 +67,10 @@ const MyOrders = () => {
     return (
         <div>
             <div className="flex flex-col">
-                <Helmet>
-                    <title>My Orders</title>
-                 </Helmet>
                 <ToastContainer/>
-                <CustomConfirm closeModal={closeModal}modalIsOpen={modalIsOpen}handleConfirm={handleConfirm}/>
+                <CustomConfirm closeModal={closeModal}modalIsOpen={modalIsOpen}handleConfirm={handleConfirm}>
+                  <h3>Do you want to delete it?</h3>
+                </CustomConfirm>
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                     <div className="overflow-hidden">
@@ -119,7 +118,7 @@ const MyOrders = () => {
                                                     </div>
                                                     ):(
                                                     <>
-                                                    <FontAwesomeIcon role={'button'} icon={faCreditCard} className='text-lg text-green-400' onClick={()=>navigate(`myorders/payment/${order._id}`)}/>
+                                                    <FontAwesomeIcon role={'button'} icon={faCreditCard} className='text-lg text-green-400' onClick={()=>navigate(`/dashboard/payment/${order._id}`)}/>
                                                     <FontAwesomeIcon role={'button'} icon={faTrash} className='text-lg text-red-600 ml-5' onClick={()=>deleteOrder(order._id)}/>
                                                     </>
                                                 )

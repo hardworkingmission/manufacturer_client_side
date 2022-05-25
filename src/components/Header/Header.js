@@ -69,7 +69,10 @@ const Header = () => {
 
                             }
                             <li className="nav-item px-2 mb-3 md:m-0">
-                                <CustomLink className="nav-link" aria-current="page" to={'/myportfolio'}>My Portfolio</CustomLink>
+                                <CustomLink className="nav-link text-white" aria-current="page" to={'/myportfolio'}>My Portfolio</CustomLink>
+                            </li>
+                            <li className="nav-item px-2 mb-3 md:m-0">
+                                <CustomLink className="nav-link" aria-current="page" to={'/blogs'}>Blogs</CustomLink>
                             </li>
                             <li className="nav-item px-2  mb-3 md:m-0 flex items-center"> 
                                     {

@@ -21,6 +21,7 @@ import ManageAllOrders from './Pages/Dashboard/Admin/ManageAllOrders'
 import ManageProducts from './Pages/Dashboard/Admin/ManageProducts'
 import RequireAdmin from './components/RequireAdmin/RequireAdmin';
 import MyPortfolio from './Pages/MyPortfolio/MyPortfolio';
+import Blogs from './Pages/Blogs/Blogs';
 
 
 
@@ -34,6 +35,7 @@ function App() {
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/myportfolio' element={<MyPortfolio/>}/>
+        <Route path='/blogs' element={<Blogs/>}/>
         <Route path='/purchase/:id' element={
           <RequireAuth>
             <Purchase/>
@@ -46,9 +48,10 @@ function App() {
         }>
           <Route index element={<MyProfile/>}/>
           <Route path='myprofile' element={<MyProfile/>}/>
-          <Route index path='myorders' element={<MyOrders/>}/>
+          <Route index path='myorders' element={<MyOrders/>}>
+          </Route>
+          <Route path='payment/:id' element={<Payment/>}/>
           <Route path='addreview' element={<AddReview/>}/>
-          <Route path='myorders/payment/:id' element={<Payment/>}/>
           <Route path='addproduct' element={
             <RequireAdmin>
               <AddProduct/>
