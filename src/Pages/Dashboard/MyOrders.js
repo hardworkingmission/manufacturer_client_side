@@ -9,6 +9,7 @@ import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import auth from '../../firebase.init';
 import CustomConfirm from '../../components/CustomConfirm/CustomConfirm'
 import { useNavigate } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 const MyOrders = () => {
     const [user, loading, authError] = useAuthState(auth);
@@ -37,7 +38,7 @@ const MyOrders = () => {
         if(confirm){
             setModalIsOpen(false)
             console.log(orderId)
-            fetch(`http://localhost:5000/deleteOrder/${orderId}`,{
+            fetch(`http://localhost:5000/deleteOrderByUser/${orderId}`,{
                 method:"DELETE",
                 headers:{
                     'content-type':'application/json',
@@ -66,6 +67,9 @@ const MyOrders = () => {
     return (
         <div>
             <div className="flex flex-col">
+                <Helmet>
+                    <title>My Orders</title>
+                 </Helmet>
                 <ToastContainer/>
                 <CustomConfirm closeModal={closeModal}modalIsOpen={modalIsOpen}handleConfirm={handleConfirm}/>
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -93,7 +97,7 @@ const MyOrders = () => {
                         <tbody>
                           {
                               orders?.map((order,index)=>(
-                                <tr children={order._id} className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                                <tr key={order._id} className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-wrap">
                                         <img src={order.img} alt="" className='h-[50px] w-[50px] '/>

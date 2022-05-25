@@ -9,7 +9,7 @@ import useProfile from '../../hooks/useProfile/useProfile';
 const AddReview = () => {
     const [user, loading, error] = useAuthState(auth);
     const { register, formState: { errors }, handleSubmit,reset} = useForm();
-    const [profileData,isLoading,queryError,refetch]=useProfile(user)
+    const [profileData,isLoading,profileError,setRefetch]=useProfile()
     
     const onSubmit=(data)=>{
         const reviewInfo={

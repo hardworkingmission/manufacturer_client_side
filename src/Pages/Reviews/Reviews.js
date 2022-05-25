@@ -17,17 +17,15 @@ const Reviews = () => {
         </div>
         <div className='grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-3 '>
             {
-                reviews?.map(review=>(
-                    <div className='col rounded-lg shadow-lg py-5 px-3' key={review.id}>
+                reviews?.map((review,index)=>(
+                    <div className='col rounded-lg shadow-lg py-5 px-3' key={index}>
                         <div className="summary mt-3 text-left">
-                            <p className=''> 
-                                <ReactStars
-                                    count={5}
-                                    value={parseFloat(review?.ratings)}
-                                    size={24}
-                                    activeColor="#ffd700"
-                                />
-                            </p>
+                            <ReactStars
+                                count={5}
+                                value={parseFloat(review?.ratings)}
+                                size={24}
+                                activeColor="#ffd700"
+                            />
                             <p className='italic text-sm'>"{review.comment}"</p>
                             <div className='text-[#605C3C] mt-2'>
                                 <h3 className='font-bold'>{review.name}</h3>

@@ -7,7 +7,7 @@ const BusinessSummary = () => {
         {id:1,icon:faGlobe,title:"Continents",quantity:5},
         {id:2,icon:faFlag,title:"Countries",quantity:150},
         {id:3,icon:faUser,title:"Clients",quantity:750},
-        {id:3,icon:faComments,title:"Feedbacks",quantity:1000},
+        {id:4,icon:faComments,title:"Feedbacks",quantity:1000},
 
     ]
     return (

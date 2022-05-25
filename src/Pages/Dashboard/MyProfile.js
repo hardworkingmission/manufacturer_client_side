@@ -4,14 +4,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from "react-hook-form";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
-import { useQuery } from 'react-query';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import useProfile from '../../hooks/useProfile/useProfile';
 
 const MyProfile = () => {
     const [user, loading, error] = useAuthState(auth);
-    const { register, formState: { errors }, handleSubmit,reset} = useForm();
-    const [profileData,isLoading,queryError,refetch]=useProfile(user)
+    console.log('user',user)
+    const { register, handleSubmit,reset} = useForm();
+    const [profileData,isLoading,profileError,setRefetch]=useProfile()
     const onSubmit=(data)=>{
         //console.log(Object.values(data))
         
@@ -23,7 +23,7 @@ const MyProfile = () => {
                 address:data?.uAddress,
                 socialMediaProfile:data?.uSocialMediaProfile
             }
-            if(!profileData){
+            if(!profileData?.name){
                 if(data.uPhone||data.uAddresse){
                     fetch('http://localhost:5000/myprofile',{
                         method:"POST",
@@ -36,7 +36,7 @@ const MyProfile = () => {
                        .then(data=>{
                            if(data){
                             toast.success('Profile info added successfully')
-                            refetch()
+                            setRefetch(true)
                             setAdd(false)
                             reset()
                            }
@@ -72,7 +72,7 @@ const MyProfile = () => {
                    .then(data=>{
                        if(data){
                         toast.success('Profile is updated successfully')
-                        refetch()
+                        setRefetch(true)
                         setUpdate(false)
                         reset()
                        }
@@ -92,15 +92,15 @@ const MyProfile = () => {
         setUpdate(!update)
 
     }
-    if(isLoading||loading){
+    if(loading){
         return <CustomSpinner/>
     }
     return (
         <div className='lg:w-5/6 md:w-5/6 w-full mx-auto my-5'>
             <ToastContainer/>
             <div className='text-left'>
-                {
-                    profileData?(
+                
+                    {profileData?.name&&
                         <div>
                             <h3 className='text-2xl'>Name: {profileData?.name} </h3>
                             <h3>Email: {profileData?.email} </h3>
@@ -111,17 +111,19 @@ const MyProfile = () => {
                             <a href={profileData?.socialMediaProfile} target="_blank" rel="noopener noreferrer" className='underline text-blue-600'>Linkedin</a>
                             
                         </div>
-                    ):(
-                        <div>
+                        }
+                    
+                        {!profileData?.name&&<div>
                             <h3 className='text-2xl'>Name: {user?.displayName} </h3>
                             <h3>Email: {user?.email} </h3>
                         </div>
-                    )
-                }
+                        }
+                    
+                
                 
                 <div title='Profile' className='bg-gray-200 h-5 rounded-lg w-full my-2'>
-                    <div className='bg-[#605C3C] text-white flex justify-center items-center  h-5 rounded-lg' style={{width:`${profileData?'100%':'50%'}`}}>
-                    {profileData?'100%':'50%'}
+                    <div className='bg-[#605C3C] text-white flex justify-center items-center  h-5 rounded-lg' style={{width:`${profileData?.name?'100%':'50%'}`}}>
+                    {profileData?.name?'100%':'50%'}
                     </div>
                 </div>
                 <div>
@@ -171,13 +173,13 @@ const MyProfile = () => {
 
                         </div>
                         <div className='mb-2'>
-                            <input {...register("phone",)} className="w-full p-2 outline-none border-b-2" placeholder='Phone Number' defaultValue={profileData?.phone}/>
+                            <input {...register("phone",{value:profileData?.phone})} className="w-full p-2 outline-none border-b-2" placeholder='Phone Number' defaultValue={profileData?.phone}/>
                         </div>
                         <div className='mb-2'>
-                            <textarea rows={3} {...register("address",)} className="w-full p-2 outline-none border-b-2" placeholder='Your Address' defaultValue={profileData?.address}/>
+                            <textarea rows={3} {...register("address",{value:profileData?.address})} className="w-full p-2 outline-none border-b-2" placeholder='Your Address' defaultValue={profileData?.address}/>
                         </div>
                         <div className='mb-2'>
-                            <input {...register("socialMediaProfile",)} className="w-full p-2 outline-none border-b-2" placeholder='Your Linkedin Address' defaultValue={profileData?.socialMediaProfile}/>
+                            <input {...register("socialMediaProfile",{value:profileData?.socialMediaProfile})} className="w-full p-2 outline-none border-b-2" placeholder='Your Linkedin Address' defaultValue={profileData?.socialMediaProfile}/>
                         </div>
                         <div className=''>
                             <input type="submit" value="Update"className="w-2/6 p-2 outline-none rounded-lg bg-[#605C3C] text-white cursor-pointer" />

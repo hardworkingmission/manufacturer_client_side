@@ -88,10 +88,11 @@ const Purchase = () => {
                        toast.success('The order is placed successfully')
                        reset()
                        const currentAvailableQuantity={availableQuantity:maxQuantity}
-                        fetch(`http://localhost:5000/parts/${data?.partsId}`,{
+                        fetch(`http://localhost:5000/partsQuantity/${data?.partsId}`,{
                             method:"PATCH",
                             headers:{
-                                "content-type":"application/json"
+                                "content-type":"application/json",
+                                authorization:`Bearer ${localStorage.getItem('accessToken')}`
                             },
                             body:JSON.stringify(currentAvailableQuantity)
                         }).then(res=>res.json())
@@ -127,7 +128,7 @@ const Purchase = () => {
                         <h1 className='font-bold text-lg'>Purchase Quantity</h1>
                         <div className='flex items-center justify-center'>
                             <button className={`text-2xl py-1.4 px-2 rounded-lg ${quantity<=minQuantity?'bg-gray-600':'bg-[#605C3C] text-white'}`} onClick={decreasePurchaseQuantity} disabled={quantity<minQuantity&&true}>-</button>
-                            <input type="text" className='p-1.5 border-2 w-[100px] mx-2 rounded-lg text-center' value={quantity}/>
+                            <input type="text" className='p-1.5 border-2 w-[100px] mx-2 rounded-lg text-center' value={quantity} readOnly/>
                             <button className={`text-2xl py-1.4 px-2 rounded-lg ${quantity>=availableQuantity?'bg-gray-600':'bg-[#605C3C] text-white'}`} onClick={increasePurchaseQuantity} disabled={quantity>availableQuantity&&true}>+</button>
                         </div> 
                     </div>

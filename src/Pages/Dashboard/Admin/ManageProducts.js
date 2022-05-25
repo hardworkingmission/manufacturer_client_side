@@ -100,7 +100,7 @@ const ManageProducts = () => {
                         <tbody>
                           {
                               parts?.map((item,index)=>(
-                                <tr children={item?._id} className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                                <tr key={item?._id} className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-wrap">
                                         <img src={item?.img} alt="" className='h-[50px] w-[50px] '/>

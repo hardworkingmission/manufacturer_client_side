@@ -22,11 +22,6 @@ const Dashboard = () => {
                             admin.admin?
                             <>
                                 <li className="relative">
-                                    <Link className="flex items-center justify-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out" to={'/dashboard/myprofile'} data-mdb-ripple="true" data-mdb-ripple-color="dark">
-                                        <span>My Profile</span>
-                                    </Link>
-                                </li>
-                                <li className="relative">
                                     <Link className="flex items-center justify-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out" to={'/dashboard/addproduct'} data-mdb-ripple="true" data-mdb-ripple-color="dark">
                                         <span>Add a Product</span>
                                     </Link>
@@ -49,11 +44,6 @@ const Dashboard = () => {
                             </>:
                             <>
                                 <li className="relative">
-                                    <Link className="flex items-center justify-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out" to={'/dashboard/myprofile'} data-mdb-ripple="true" data-mdb-ripple-color="dark">
-                                        <span>My Profile</span>
-                                    </Link>
-                                </li>
-                                <li className="relative">
                                     <Link className="flex items-center justify-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out" to={'/dashboard/myorders'} data-mdb-ripple="true" data-mdb-ripple-color="dark">
                                         <span>My Orders</span>
                                     </Link>
@@ -65,6 +55,11 @@ const Dashboard = () => {
                                 </li>
                             </>
                         }
+                          <li className="relative">
+                                    <Link className="flex items-center justify-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out" to={'/dashboard/myprofile'} data-mdb-ripple="true" data-mdb-ripple-color="dark">
+                                        <span>My Profile</span>
+                                    </Link>
+                                </li>
 
 
                     </ul>
