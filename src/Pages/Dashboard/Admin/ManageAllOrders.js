@@ -30,7 +30,26 @@ const ManageProducts = () => {
     if(isLoading){
         return <CustomSpinner/>
     }
-
+    //make shipped
+    const makeShipped=(id)=>{
+        const payment={
+            status:"shipped",
+        }
+        fetch(`http://localhost:5000/order/${id}`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type":"application/json",
+                authorization:`Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body:JSON.stringify(payment)
+        }).then(res=>res.json())
+           .then(data=>{
+               setRefetch(!refetch)
+               toast.success('Order is Shipped')
+                setIsLoading(false)
+               console.log(data)
+           })
+    }
     //delete an order by admin
     const handleConfirm=(confirm)=>{
 
@@ -47,7 +66,7 @@ const ManageProducts = () => {
                .then(data=>{
                    if(data.deletedCount===1){
                        toast.success('The Order is deleted successfully')
-                       setRefetch(true)
+                       setRefetch(!refetch)
                    }
                })
 
@@ -79,9 +98,6 @@ const ManageProducts = () => {
                                 <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                 </th>
                                 <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                                    Order Id
-                                </th>
-                                <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                 Image
                                 </th>
                                 <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
@@ -94,6 +110,13 @@ const ManageProducts = () => {
                                     Price
                                 </th>
                                 <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                                    Status
+                                </th>
+                                <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                                    Payment
+                                </th>
+
+                                <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                     Actions
                                 </th>
                             </tr>
@@ -103,9 +126,7 @@ const ManageProducts = () => {
                               orders?.map((order,index)=>(
                                 <tr key={order?._id} className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
-                                    <td className="text-sm text-gray-900 font-light px-2 py-4 whitespace-wrap">
-                                       {order?._id}
-                                    </td>
+
                                     <td className="text-sm text-gray-900 font-light px-2 py-4 whitespace-wrap">
                                         <img src={order?.img} alt="" className='h-[50px] w-[50px] '/>
                                     </td>
@@ -118,20 +139,44 @@ const ManageProducts = () => {
                                     <td className="text-sm text-gray-900 font-light px-2 py-4 whitespace-wrap">
                                         ${order?.totalPrice}
                                     </td>
-                                    <td className="text-sm text-gray-900 font-light px-2 py-4 whitespace-wrap ">
-                                        <div className='flex orders-center'>
+                                    <td className="text-sm text-gray-900 font-light px-2 py-4 whitespace-wrap">
+                                        {order?.status==="pending"?
+                                         <p className='text-red-600 font-bold text-center'>Pending</p>:''
+                                        }
+                                        {order?.status==="shipped"?
+                                         <p className='text-green-600 font-bold text-center'>Shipped</p>:''
+                                        }
+                                    </td>
+                                    <td className="text-sm text-gray-900 font-light px-2 py-4 whitespace-wrap">
+                                    <div className='flex justify-center'>
                                             {
                                                 order?.paid?(
                                                     <div className='text-center'>
-                                                        <p className='text-white bg-green-600 p-2 rounded-lg w-3/6'>Paid</p>
-                                                        <p className='flex flex-wrap'>TransactionId:{order?.transactionId}</p>
+                                                        <p className='text-white bg-green-600 p-2 rounded-lg'>Paid</p>
+                                                        {/* <p className='flex flex-wrap'>TransactionId:{order?.transactionId}</p> */}
                                                      
                                                     </div>
                                                     ):(
+                                                        <div className='text-center'>
+                                                            <p className='text-white bg-red-600 p-2 rounded-lg'>Unpaid</p>
+                                                     
+                                                        </div>
+                                                    )
+                                            }
+                                        </div>
+                                    </td>
+                                    <td className="text-sm text-gray-900 font-light px-2 py-4 whitespace-wrap ">
+                                        <div className='flex justify-center'>
+                                            {
+                                                order?.paid?'':(
                                                     <>
                                                     <FontAwesomeIcon role={'button'} icon={faTrash} className='text-lg text-red-600 ml-5' onClick={()=>deleteOrder(order._id)}/>
                                                     </>
                                                 )
+                                            }
+                                            {
+                                                order?.status==='pending'?
+                                                <button className='text-white bg-green-600 p-1 rounded-lg' onClick={()=>makeShipped(order?._id)}>Shipped</button>:''
                                             }
                                         </div>
                                        

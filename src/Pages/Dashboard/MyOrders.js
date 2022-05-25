@@ -89,6 +89,9 @@ const MyOrders = () => {
                                     Price
                                 </th>
                                 <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                                    Status
+                                </th>
+                                <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                     Actions
                                 </th>
                             </tr>
@@ -106,6 +109,20 @@ const MyOrders = () => {
                                     </td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-wrap">
                                         ${order.totalPrice}
+                                    </td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-wrap">
+                                        <div className='flex items-center'>
+                                            {
+                                                order?.status==='pending'?<span className='fond-bold text-red-600'>Pending</span>
+                                                :''
+                                                
+                                            }
+                                            {
+                                                order?.status==='shipped'?<span className='fond-bold text-green-600'>Shipped</span>
+                                                :''
+                                            }
+
+                                        </div>
                                     </td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-wrap ">
                                        <div className='flex items-center'>
