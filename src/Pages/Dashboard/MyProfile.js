@@ -11,7 +11,8 @@ const MyProfile = () => {
     const [user, loading, error] = useAuthState(auth);
     console.log('user',user)
     const { register, handleSubmit,reset} = useForm();
-    const [profileData,isLoading,profileError,setRefetch]=useProfile()
+    const [profileData,isLoading,profileError,setRefetch,refetch]=useProfile()
+    console.log(profileData)
     const onSubmit=(data)=>{
         //console.log(Object.values(data))
         
@@ -36,9 +37,9 @@ const MyProfile = () => {
                        .then(data=>{
                            if(data){
                             toast.success('Profile info added successfully')
-                            setRefetch(true)
-                            setAdd(false)
+                            setRefetch(!refetch)
                             reset()
+                            setAdd(false)
                            }
                        })
                     console.log(profileInfo)
@@ -72,9 +73,10 @@ const MyProfile = () => {
                    .then(data=>{
                        if(data){
                         toast.success('Profile is updated successfully')
-                        setRefetch(true)
+                        setRefetch(!refetch)
+                        //reset()
                         setUpdate(false)
-                        reset()
+                        
                        }
                    })
         } 

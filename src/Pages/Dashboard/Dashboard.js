@@ -16,7 +16,7 @@ const Dashboard = () => {
     return (
         <div className='w-5/6 mx-auto'>
             <div className='md:flex'>
-                <div className="lg:w-1/6 md:w-2/6 w-full h-full shadow-md bg-white px-1">
+                <div className="lg:w-1/6 md:w-2/6 w-full bg-white px-1">
                     <ul className="relative">
                         {
                             admin.admin?

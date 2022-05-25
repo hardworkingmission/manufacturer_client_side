@@ -23,7 +23,7 @@ const useProfile = () => {
           }).catch(err=>setProfileError(err.message))
 
     },[email,refetch])
-    return [profileData,isLoading,profileError,setRefetch]
+    return [profileData,isLoading,profileError,setRefetch,refetch]
 };
 
 export default useProfile;

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash,faUser} from '@fortawesome/free-solid-svg-icons'
-import CustomSpinner from '../../../components/CustomSpinner/CustomSpinner'
 import CustomConfirm from '../../../components/CustomConfirm/CustomConfirm'
 
 
@@ -49,7 +46,7 @@ const ManageProducts = () => {
                .then(data=>{
                        console.log(data)
                        toast.success('Admin is made successfully')
-                       setRefetch(true)
+                       setRefetch(!refetch)
                })
 
         }
@@ -67,7 +64,9 @@ const ManageProducts = () => {
         <div>
             <div className="flex flex-col">
                 <ToastContainer/>
-                <CustomConfirm closeModal={closeConfirm} modalIsOpen={confirmIsOpen} handleConfirm={handleConfirm}/>
+                <CustomConfirm closeModal={closeConfirm} modalIsOpen={confirmIsOpen} handleConfirm={handleConfirm}>
+                    <h3>Do you want to make him Admin?</h3>
+                </CustomConfirm>
 
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -108,7 +107,7 @@ const ManageProducts = () => {
                                     <td className="text-sm text-gray-900 font-light px-2 py-4 whitespace-wrap ">
                                         <div className='flex orders-center'>
                                             {
-                                                user?.role==='admin'?'':<button className='text-white font-bold bg-green-600 rounded-lg p-2'>Make Admin</button>
+                                                user?.role==='admin'?'':<button className='text-white font-bold bg-green-600 rounded-lg p-2' onClick={()=>makeAdmin(user._id)}>Make Admin</button>
                                             }
                                         </div>
                                        

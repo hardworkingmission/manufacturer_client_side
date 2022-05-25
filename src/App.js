@@ -20,6 +20,7 @@ import MakeAdmin from './Pages/Dashboard/Admin/MakeAdmin'
 import ManageAllOrders from './Pages/Dashboard/Admin/ManageAllOrders'
 import ManageProducts from './Pages/Dashboard/Admin/ManageProducts'
 import RequireAdmin from './components/RequireAdmin/RequireAdmin';
+import MyPortfolio from './Pages/MyPortfolio/MyPortfolio';
 
 
 
@@ -32,6 +33,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/myportfolio' element={<MyPortfolio/>}/>
         <Route path='/purchase/:id' element={
           <RequireAuth>
             <Purchase/>
@@ -70,6 +72,7 @@ function App() {
 
         </Route>
         <Route path='*' element={<NotFound/>}/>
+
       </Routes>
       <Footer/>
     </div>

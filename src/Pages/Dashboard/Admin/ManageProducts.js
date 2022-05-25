@@ -71,7 +71,9 @@ const ManageProducts = () => {
         <div>
             <div className="flex flex-col">
                 <ToastContainer/>
-                <CustomConfirm closeModal={closeConfirm} modalIsOpen={confirmIsOpen} handleConfirm={handleConfirm}/>
+                <CustomConfirm closeModal={closeConfirm} modalIsOpen={confirmIsOpen} handleConfirm={handleConfirm}>
+                    <h3>Do you want to delete it?</h3>
+                </CustomConfirm>
                 <CustomModal closeModal={closeModal} modalIsOpen={modalIsOpen}>
                       <UpdateProduct id={productId} closeModal={closeModal}/>
                 </CustomModal>

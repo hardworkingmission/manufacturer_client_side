@@ -23,7 +23,7 @@ const customStyles = {
       },
   };
 Modal.setAppElement(document.getElementById('root'))
-const CustomConfirm = ({closeModal,modalIsOpen,handleConfirm}) => {
+const CustomConfirm = ({closeModal,modalIsOpen,handleConfirm,children}) => {
     return (
         <Modal
         isOpen={modalIsOpen}
@@ -31,7 +31,7 @@ const CustomConfirm = ({closeModal,modalIsOpen,handleConfirm}) => {
         style={customStyles}
         >
             <div className='h-[100px] w-[200px] relvative flex items-center justify-center'>
-                <h3>Do you want to delete it?</h3>
+                {children}
                 <FontAwesomeIcon role={'button'} onClick={()=>handleConfirm(true)} icon={faCheck} className='absolute bottom-[10%] left-[20%] h-[25px] w-[25px] text-green-600 font-bold hover:bg-gray-200 hover:p-2 hover:rounded'/>
                 <FontAwesomeIcon role={'button'} onClick={()=>closeModal()} icon={faClose} className='absolute bottom-[10%] right-[20%] h-[25px] w-[25px] text-red-600 font-bold hover:bg-gray-200 hover:p-2 hover:rounded'/>
             </div>
