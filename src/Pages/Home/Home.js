@@ -2,6 +2,7 @@ import React from 'react';
 import CustomCarousel from '../../components/CustomCarousel/CustomCarousel';
 import BusinessSummary from '../BusinessSummary/BusinessSummary';
 import ContactUs from '../ContactUs/ContactUs';
+import SalesOverview from '../Dashboard/SalesOverview';
 import Parts from '../Parts/Parts';
 import Reviews from '../Reviews/Reviews';
 
@@ -24,7 +25,7 @@ const Home = () => {
                 <ContactUs/>
             </section>
             <section>
-                <h3>Extra Section</h3>
+                <SalesOverview/>
             </section>
         </div>
     );
