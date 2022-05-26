@@ -1,8 +1,12 @@
 import React from 'react';
+import {Helmet} from 'react-helmet-async'
 
 const Blogs = () => {
     return (
         <div className='w-5/6 mx-auto'>
+            <Helmet>
+                <title>Blogs</title>
+            </Helmet>
             <div className='p-2'>
                 <h3 className='font-bold'>1. How will you improve the performance of a React Application?</h3>
                 <p>The concept of react is made for developing web application faster.For a small change manipulate hole document is time and resource consuming.In react every part of a web page is component.Any change of a single component,a single part of DOM will be updated not entire DOM.It makes react application faster.In here hole DOM is not re-renderd,optimizing re-rendering inproves react applications performance.Caching of component-rerender also prevent unnecessary re-render which improve the performance of a react app.  </p>

@@ -3,6 +3,7 @@ import { useAuthState, useCreateUserWithEmailAndPassword,useUpdateProfile } from
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner'
 import { useForm } from "react-hook-form";
 import { Link,useNavigate } from 'react-router-dom';
+import { Helmet} from 'react-helmet-async';
 import auth from '../../firebase.init';
 import SocialLogin from './SocialLogin';
 import { signOut } from 'firebase/auth';
@@ -35,6 +36,9 @@ const Signup = () => {
     }
     return (
         <div className='w-5/6 mx-auto my-5 flex justify-center'>
+            <Helmet>
+                <title>Sign Up</title>
+            </Helmet>
              <div className="p-5 rounded-lg lg:w-2/6 md:w-1/2 w-full shadow-lg">
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <h3 className='text-xl text-[#605C3C] font-bold'>Sign Up</h3>

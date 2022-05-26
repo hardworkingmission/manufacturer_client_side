@@ -1,5 +1,6 @@
 import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
+import {Helmet} from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,7 +17,7 @@ const ManageProducts = () => {
     const [refetch,setRefetch]=useState(false)
     const navigate=useNavigate()
     useEffect(()=>{
-        fetch('https://gentle-lake-87574.herokuapp.com/allusers',{
+        fetch('http://localhost:5000/allusers',{
                 headers:{
                     "Content-Type":"application/json",
                     authorization:`Bearer ${localStorage.getItem('accessToken')}`
@@ -45,7 +46,7 @@ const ManageProducts = () => {
             setConfirmIsOpen(false)
             console.log('Order id',userId)
             const admin={role:"admin"}
-            fetch(`https://gentle-lake-87574.herokuapp.com/makeAdminByAdmin/${userId}`,{
+            fetch(`http://localhost:5000/makeAdminByAdmin/${userId}`,{
                 method:"PATCH",
                 headers:{
                     'content-type':'application/json',
@@ -80,6 +81,9 @@ const ManageProducts = () => {
         <div>
             <div className="flex flex-col">
                 <ToastContainer/>
+                <Helmet>
+                    <title>Make Admin</title>
+                </Helmet>
                 <CustomConfirm closeModal={closeConfirm} modalIsOpen={confirmIsOpen} handleConfirm={handleConfirm}>
                     <h3>Do you want to make him Admin?</h3>
                 </CustomConfirm>

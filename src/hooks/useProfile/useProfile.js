@@ -10,7 +10,7 @@ const useProfile = () => {
     const [profileError,setProfileError]=useState('')
     const email=user?.email
     useEffect(()=>{
-        fetch(`https://gentle-lake-87574.herokuapp.com/myprofile/${email}`,{
+        fetch(`http://localhost:5000/myprofile/${email}`,{
             headers:{
                 "Content-Type":"application/json",
                 authorization:`Bearer ${localStorage.getItem('accessToken')}`

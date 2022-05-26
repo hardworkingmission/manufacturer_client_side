@@ -1,15 +1,19 @@
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
+import {Helmet} from 'react-helmet-async'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import auth from '../../firebase.init';
 import useProfile from '../../hooks/useProfile/useProfile';
+import { signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const AddReview = () => {
     const [user, loading, error] = useAuthState(auth);
     const { register, formState: { errors }, handleSubmit,reset} = useForm();
     const [profileData,isLoading,profileError,setRefetch]=useProfile()
+    const navigate=useNavigate()
     
     const onSubmit=(data)=>{
         const reviewInfo={
@@ -17,15 +21,21 @@ const AddReview = () => {
             name:profileData?.name,
             address:profileData?.address
         }
-        fetch('https://gentle-lake-87574.herokuapp.com/review',{
+        fetch('http://localhost:5000/review',{
             method:"POST",
             headers:{
                 "content-type":"application/json",
                 authorization:`Bearer ${localStorage.getItem('accessToken')}`,
             },
             body:JSON.stringify(reviewInfo)
-        }).then(res=>res.json())
-           .then(data=>{
+        }).then(res=>{
+            if(res.status===403||res.status===401){
+                signOut(auth)
+                navigate('/login')
+
+            }
+            return res.json()
+        }).then(data=>{
                if(data){
                    toast.success('Review is added successfully!')
                    reset()
@@ -37,6 +47,9 @@ const AddReview = () => {
     return (
         <div className='w-5/6 mx-auto my-5 flex justify-center'>
             <ToastContainer/>
+            <Helmet>
+                <title>Add Review</title>
+            </Helmet>
             <div className="p-5 rounded-lg lg:w-3/6 md:w-1/2 w-full shadow-lg">
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <h3 className='text-xl text-[#605C3C] font-bold'>Please give a review</h3>

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Helmet} from 'react-helmet-async'
 import Banner from './Banner/Banner';
 import Contact from './Contact/Contact';
 import Educations from './Educations/Educations';
@@ -9,6 +10,9 @@ import Technologies from './Technologies/Technologies';
 const MyPortfolio = () => {
     return (
         <div className='w-5/6 mx-auto'>
+            <Helmet>
+                <title>My Portfolio</title>
+            </Helmet>
             <section className='banner'>
                 <Banner/>
             </section>

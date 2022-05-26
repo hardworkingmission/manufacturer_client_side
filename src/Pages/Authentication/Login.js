@@ -4,6 +4,7 @@ import { useSignInWithEmailAndPassword,useSendPasswordResetEmail } from 'react-f
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from "react-hook-form";
+import {Helmet} from 'react-helmet-async'
 import auth from '../../firebase.init';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import SocialLogin from './SocialLogin';
@@ -60,6 +61,9 @@ const Login = () => {
     return (
         <div className='w-5/6 mx-auto my-5 flex justify-center'>
             <ToastContainer/>
+            <Helmet>
+                    <title>Login</title>
+            </Helmet>
             <div className="p-5 rounded-lg lg:w-2/6 md:w-1/2 w-full shadow-lg">
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <h3 className='text-xl text-[#605C3C] font-bold'>Login</h3>

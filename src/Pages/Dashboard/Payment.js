@@ -13,7 +13,7 @@ const Payment = () => {
     const {id}=useParams()
     const navigate=useNavigate()
     const {data:order,isLoading,refetch}=useQuery('order',()=>(
-        fetch(`https://gentle-lake-87574.herokuapp.com/orderById/${id}`,{
+        fetch(`http://localhost:5000/orderById/${id}`,{
             method:"GET",
             headers:{
                 authorization:`Bearer ${localStorage.getItem('accessToken')}`

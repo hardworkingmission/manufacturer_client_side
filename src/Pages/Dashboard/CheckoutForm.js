@@ -16,7 +16,7 @@ const CheckoutForm = ({order}) => {
     const navigate=useNavigate()
     
     useEffect(()=>{
-        fetch('https://gentle-lake-87574.herokuapp.com/create-payment-intent',{
+        fetch('http://localhost:5000/create-payment-intent',{
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
@@ -82,7 +82,7 @@ const CheckoutForm = ({order}) => {
                 status:"pending",
                 transactionId:paymentIntent.id
             }
-            fetch(`https://gentle-lake-87574.herokuapp.com/order/${_id}`,{
+            fetch(`http://localhost:5000/order/${_id}`,{
                 method:"PATCH",
                 headers:{
                     "Content-Type":"application/json",

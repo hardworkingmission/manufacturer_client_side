@@ -1,6 +1,7 @@
 import { signOut } from 'firebase/auth';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import {Helmet} from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,7 +36,7 @@ const AddProduct = () => {
                     availableQuantity:data?.availableQuantity,
                     price:data?.price
                 }
-                fetch('https://gentle-lake-87574.herokuapp.com/parts',{
+                fetch('http://localhost:5000/parts',{
                     method:"POST",
                     headers:{
                         "content-type":"application/json",
@@ -62,6 +63,9 @@ const AddProduct = () => {
     return (
         <div className='mx-auto my-5 flex justify-center'>
             <ToastContainer/>
+            <Helmet>
+                <title>Add Product</title>
+            </Helmet>
             <div className="p-5 rounded-lg lg:w-3/6 md:w-1/2 w-full shadow-lg">
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <h3 className='text-xl text-[#605C3C] font-bold'>Please Add Product</h3>

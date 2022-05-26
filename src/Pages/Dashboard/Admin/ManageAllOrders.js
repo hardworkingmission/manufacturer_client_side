@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import {Helmet} from 'react-helmet-async'
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash} from '@fortawesome/free-solid-svg-icons'
@@ -19,7 +20,7 @@ const ManageProducts = () => {
     const [refetch,setRefetch]=useState(false)
     const navigate=useNavigate()
     useEffect(()=>{
-        fetch('https://gentle-lake-87574.herokuapp.com/allorders',{
+        fetch('http://localhost:5000/allorders',{
                 headers:{
                     "Content-Type":"application/json",
                     authorization:`Bearer ${localStorage.getItem('accessToken')}`
@@ -46,7 +47,7 @@ const ManageProducts = () => {
         const payment={
             status:"shipped",
         }
-        fetch(`https://gentle-lake-87574.herokuapp.com/order/${id}`,{
+        fetch(`http://localhost:5000/order/${id}`,{
             method:"PATCH",
             headers:{
                 "Content-Type":"application/json",
@@ -73,7 +74,7 @@ const ManageProducts = () => {
         if(confirm){
             setConfirmIsOpen(false)
             console.log('Order id',orderId)
-            fetch(`https://gentle-lake-87574.herokuapp.com/deleteOrderByAdmin/${orderId}`,{
+            fetch(`http://localhost:5000/deleteOrderByAdmin/${orderId}`,{
                 method:"DELETE",
                 headers:{
                     'content-type':'application/json',
@@ -108,6 +109,9 @@ const ManageProducts = () => {
         <div>
             <div className="flex flex-col">
                 <ToastContainer/>
+                <Helmet>
+                    <title>Manage All Orders</title>
+                </Helmet>
                 <CustomConfirm closeModal={closeConfirm} modalIsOpen={confirmIsOpen} handleConfirm={handleConfirm}>
                    <h3>Do you want to delete it?</h3>
                 </CustomConfirm>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Helmet} from 'react-helmet-async'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,7 +33,7 @@ const ManageProducts = () => {
         if(confirm){
             setConfirmIsOpen(false)
             console.log(partsId)
-            fetch(`https://gentle-lake-87574.herokuapp.com/deleteParts/${partsId}`,{
+            fetch(`http://localhost:5000/deleteParts/${partsId}`,{
                 method:"DELETE",
                 headers:{
                     'content-type':'application/json',
@@ -78,6 +79,9 @@ const ManageProducts = () => {
         <div>
             <div className="flex flex-col">
                 <ToastContainer/>
+                <Helmet>
+                    <title>Manage Products</title>
+                </Helmet>
                 <CustomConfirm closeModal={closeConfirm} modalIsOpen={confirmIsOpen} handleConfirm={handleConfirm}>
                     <h3>Do you want to delete it?</h3>
                 </CustomConfirm>

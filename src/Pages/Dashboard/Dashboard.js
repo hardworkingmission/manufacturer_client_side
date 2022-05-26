@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import {Helmet} from 'react-helmet-async'
 import { Link, Outlet } from 'react-router-dom';
 import CustomLink from '../../components/CustomLink/CustomLink';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
@@ -15,6 +16,9 @@ const Dashboard = () => {
     console.log('Admin',admin.admin)
     return (
         <div className='w-5/6 mx-auto'>
+            <Helmet>
+                <title>Dashboard</title>
+            </Helmet>
             <div className='md:flex'>
                 <div className="lg:w-1/6 md:w-2/6 w-full bg-white px-1">
                     <ul className="relative">

@@ -9,7 +9,7 @@ const SalesOverview = () => {
     const [orders,setOrders]=useState([])
     const [showTooltip, setShowTooltip] = useState(false);
     useEffect(()=>{
-        fetch('https://gentle-lake-87574.herokuapp.com/allorderspublic')
+        fetch('http://localhost:5000/allorderspublic')
               .then(res=>res.json())
               .then(data=>setOrders(data))
 

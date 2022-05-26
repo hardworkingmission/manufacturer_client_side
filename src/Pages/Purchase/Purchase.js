@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import {Helmet} from 'react-helmet-async'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,7 +18,7 @@ const Purchase = () => {
     const navigate=useNavigate()
     // [agree,setAgree]=useState(false)
     useEffect(()=>{
-        fetch(`https://gentle-lake-87574.herokuapp.com/partsItemById/${id}`,{
+        fetch(`http://localhost:5000/partsItemById/${id}`,{
             headers:{
                 "content-type":"application/json",
                 authorization:`Bearer ${localStorage.getItem('accessToken')}`
@@ -82,7 +83,7 @@ const Purchase = () => {
                 totalPrice:parseInt(quantity)*parseInt(price),
                 purchaseQuantity:quantity
             }
-            fetch('https://gentle-lake-87574.herokuapp.com/order',{
+            fetch('http://localhost:5000/order',{
                 method:"POST",
                 headers:{
                     "content-type":"application/json",
@@ -102,7 +103,7 @@ const Purchase = () => {
                        toast.success('The order is placed successfully')
                        reset()
                        const currentAvailableQuantity={availableQuantity:maxQuantity}
-                        fetch(`https://gentle-lake-87574.herokuapp.com/partsQuantity/${data?.partsId}`,{
+                        fetch(`http://localhost:5000/partsQuantity/${data?.partsId}`,{
                             method:"PATCH",
                             headers:{
                                 "content-type":"application/json",
@@ -132,6 +133,9 @@ const Purchase = () => {
     return (
         <div className='w-5/6 mx-auto flex justify-center my-5'>
             <ToastContainer/>
+            <Helmet>
+                <title>Purchase</title>
+            </Helmet>
             <div className='lg:w-4/6 md:w-5/6 w-full rounded-lg shadow-lg border-2'>
                 {/* parts detail */}
                 <div className='text-center'>

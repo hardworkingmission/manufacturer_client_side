@@ -9,7 +9,7 @@ import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import auth from '../../firebase.init';
 import CustomConfirm from '../../components/CustomConfirm/CustomConfirm'
 import { useNavigate } from 'react-router-dom';
-import Helmet from 'react-helmet';
+import { Helmet} from 'react-helmet-async';
 import { signOut } from 'firebase/auth';
 
 const MyOrders = () => {
@@ -19,7 +19,7 @@ const MyOrders = () => {
     const navigate=useNavigate()
 
     const {data:orders,isLoading,error,refetch}=useQuery('orders',()=>(
-        fetch(`https://gentle-lake-87574.herokuapp.com/orders?user=${user?.email}`,{
+        fetch(`http://localhost:5000/orders?user=${user?.email}`,{
             method:"GET",
             headers:{
                 "Content-Type":"application/json",
@@ -45,7 +45,7 @@ const MyOrders = () => {
         if(confirm){
             setModalIsOpen(false)
             console.log(orderId)
-            fetch(`https://gentle-lake-87574.herokuapp.com/deleteOrderByUser/${orderId}`,{
+            fetch(`http://localhost:5000/deleteOrderByUser/${orderId}`,{
                 method:"DELETE",
                 headers:{
                     'content-type':'application/json',
@@ -81,6 +81,9 @@ const MyOrders = () => {
         <div>
             <div className="flex flex-col">
                 <ToastContainer/>
+                <Helmet>
+                    <title>My Orders</title>
+                </Helmet>
                 <CustomConfirm closeModal={closeModal}modalIsOpen={modalIsOpen}handleConfirm={handleConfirm}>
                   <h3>Do you want to delete it?</h3>
                 </CustomConfirm>

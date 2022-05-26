@@ -15,7 +15,7 @@ const UpdateProduct = ({id,closeModal,queryRefetch}) => {
     const navigate=useNavigate()
 
     const {data:partsItem,isLoading,error,refetch}=useQuery(['parts',id],()=>
-                fetch(`https://gentle-lake-87574.herokuapp.com/partsItemById/${id}`,{
+                fetch(`http://localhost:5000/partsItemById/${id}`,{
                     headers:{
                         "content-type":"application/json",
                         authorization:`Bearer ${localStorage.getItem('accessToken')}`
@@ -50,7 +50,7 @@ const UpdateProduct = ({id,closeModal,queryRefetch}) => {
                     availableQuantity:data?.availableQuantity,
                     price:data?.price
                 }
-                fetch(`https://gentle-lake-87574.herokuapp.com/parts/${id}`,{
+                fetch(`http://localhost:5000/parts/${id}`,{
                     method:"PATCH",
                     headers:{
                         "content-type":"application/json",

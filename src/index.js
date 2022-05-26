@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import {
-  useQuery,
-  useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from 'react-query'
@@ -18,7 +17,9 @@ root.render(
   <QueryClientProvider client={queryClient}>
         <React.StrictMode>
           <BrowserRouter>
-            <App />
+            <HelmetProvider>
+              <App />
+            </HelmetProvider>
           </BrowserRouter>
         </React.StrictMode>
   </QueryClientProvider>

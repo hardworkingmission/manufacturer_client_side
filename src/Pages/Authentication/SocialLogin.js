@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import auth from '../../firebase.init';
 import useToken from '../../hooks/useToken/useToken';
-import {Helmet} from "react-helmet";
+
 
 const SocialLogin = () => {
     const [signInWithGoogle, socialLoginUser, socialLoginLoading, socialLoginError] = useSignInWithGoogle(auth);
@@ -31,9 +31,6 @@ const SocialLogin = () => {
     }
     return (
         <div>
-            <Helmet>
-                <title>Social Login</title>
-            </Helmet>
             <p className='text-red-600'>{socialLoginError?socialLoginError.message:''}</p>
             <button className='w-full p-2 outline-none rounded-lg bg-[#605C3C] text-white' onClick={handleSignInWithGoogle}>Continue with Google</button>
         </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from "react-hook-form";
+import {Helmet} from 'react-helmet-async'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
@@ -29,7 +30,7 @@ const MyProfile = () => {
             }
             if(!profileData?.name){
                 if(data.uPhone||data.uAddresse){
-                    fetch('https://gentle-lake-87574.herokuapp.com/myprofile',{
+                    fetch('http://localhost:5000/myprofile',{
                         method:"POST",
                         headers:{
                             "content-type":"application/json",
@@ -71,7 +72,7 @@ const MyProfile = () => {
                 address:data?.address,
                 socialMediaProfile:data?.socialMediaProfile
             }
-            fetch(`https://gentle-lake-87574.herokuapp.com/updateprofile/${data?.email}`,{
+            fetch(`http://localhost:5000/updateprofile/${data?.email}`,{
                     method:"PUT",
                     headers:{
                         "content-type":"application/json",
@@ -115,6 +116,9 @@ const MyProfile = () => {
     return (
         <div className='lg:w-5/6 md:w-5/6 w-full mx-auto my-5'>
             <ToastContainer/>
+            <Helmet>
+                <title>My Profile</title>
+            </Helmet>
             <div className='text-left'>
                 
                     {profileData?.name&&
