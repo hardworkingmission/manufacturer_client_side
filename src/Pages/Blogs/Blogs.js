@@ -31,7 +31,10 @@ const Blogs = () => {
             </div>
             <div className='p-2'>
                 <h3 className='font-bold'>4.Why you do not set the state directly in React?</h3>
-                <p></p>
+                <p>
+                    Set value to a state is a bad idea.If someone wants to set value directly,it will work as a state.It will not re-render components.Instead use setState() method. It schedules an update to a component's state object. When state changes, the component responds by re-rendering. 
+
+                </p>
                 
             </div>
             <div className='p-2'>

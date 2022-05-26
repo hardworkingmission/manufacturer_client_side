@@ -6,12 +6,15 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import useProfile from '../../hooks/useProfile/useProfile';
+import { signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const MyProfile = () => {
     const [user, loading, error] = useAuthState(auth);
     console.log('user',user)
     const { register, handleSubmit,reset} = useForm();
     const [profileData,isLoading,profileError,setRefetch,refetch]=useProfile()
+    const navigate=useNavigate()
     console.log(profileData)
     const onSubmit=(data)=>{
         //console.log(Object.values(data))
@@ -26,15 +29,21 @@ const MyProfile = () => {
             }
             if(!profileData?.name){
                 if(data.uPhone||data.uAddresse){
-                    fetch('http://localhost:5000/myprofile',{
+                    fetch('https://gentle-lake-87574.herokuapp.com/myprofile',{
                         method:"POST",
                         headers:{
                             "content-type":"application/json",
                             authorization:`Bearer ${localStorage.getItem('accessToken')}`
                         },
                         body:JSON.stringify(profileInfo)
-                    }).then(res=>res.json())
-                       .then(data=>{
+                    }).then(res=>{
+                        if(res.status===403||res.status===401){
+                            signOut(auth)
+                            navigate('/login')
+        
+                        }
+                        return res.json()
+                    }).then(data=>{
                            if(data){
                             toast.success('Profile info added successfully')
                             setRefetch(!refetch)
@@ -62,15 +71,21 @@ const MyProfile = () => {
                 address:data?.address,
                 socialMediaProfile:data?.socialMediaProfile
             }
-            fetch(`http://localhost:5000/updateprofile/${data?.email}`,{
+            fetch(`https://gentle-lake-87574.herokuapp.com/updateprofile/${data?.email}`,{
                     method:"PUT",
                     headers:{
                         "content-type":"application/json",
                         authorization:`Bearer ${localStorage.getItem('accessToken')}`
                     },
                     body:JSON.stringify(profileInfo)
-                }).then(res=>res.json())
-                   .then(data=>{
+                }).then(res=>{
+                    if(res.status===403||res.status===401){
+                        signOut(auth)
+                        navigate('/login')
+    
+                    }
+                    return res.json()
+                }).then(data=>{
                        if(data){
                         toast.success('Profile is updated successfully')
                         setRefetch(!refetch)

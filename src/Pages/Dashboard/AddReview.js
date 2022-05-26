@@ -17,7 +17,7 @@ const AddReview = () => {
             name:profileData?.name,
             address:profileData?.address
         }
-        fetch('http://localhost:5000/review',{
+        fetch('https://gentle-lake-87574.herokuapp.com/review',{
             method:"POST",
             headers:{
                 "content-type":"application/json",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignIn,faSignOut } from '@fortawesome/free-solid-svg-icons'
 import CustomLink from '../CustomLink/CustomLink';
@@ -12,10 +12,12 @@ import { signOut } from 'firebase/auth';
 
 const Header = () => {
     const [user, loading, error] = useAuthState(auth);
+    const navigate=useNavigate()
     //console.log(user)
     const logOut=()=>{
         signOut(auth)
         localStorage.removeItem('accessToken')
+        navigate('/login')
 
     }
     return (

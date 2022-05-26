@@ -1,22 +1,32 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { signOut } from 'firebase/auth';
 import React from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
+import auth from '../../firebase.init';
 import CheckoutForm from './CheckoutForm';
 
 const stripePromise = loadStripe('pk_test_51L0fVGJAuQhoLxlYRRlL4HF0y8pKzpqid78OXJI2Vdl64dc0Adygok10zFYPqglastj8fYwvzjHWEdIMe1O6fCxD00vNDgXMma');
 const Payment = () => {
     const {id}=useParams()
+    const navigate=useNavigate()
     const {data:order,isLoading,refetch}=useQuery('order',()=>(
-        fetch(`http://localhost:5000/orderById/${id}`,{
+        fetch(`https://gentle-lake-87574.herokuapp.com/orderById/${id}`,{
             method:"GET",
             headers:{
                 authorization:`Bearer ${localStorage.getItem('accessToken')}`
             }
 
-        }).then(res=>res.json())
+        }).then(res=>{
+            if(res.status===403||res.status===401){
+                signOut(auth)
+                navigate('/login')
+
+            }
+            return res.json()
+        })
 
     ))
     if(isLoading){

@@ -8,7 +8,7 @@ const Contact = () => {
     const onSubmit = data => {
         toast.success(`Hi, ${data.name}.I have received your email`)
         reset()
-        // fetch('http://localhost:5000/sendEmail',{
+        // fetch('https://gentle-lake-87574.herokuapp.com/sendEmail',{
         //     method:"POST",
         //     headers:{
         //         "content-type":"application/json"

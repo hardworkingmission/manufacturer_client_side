@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 
 const useAdmin = (user) => {
     const {data:admin,isLoading:isAdminLoading,error:adminError}=useQuery(['admin',user],()=>
-         fetch(`http://localhost:5000/admin/${user?.email}`,{
+         fetch(`https://gentle-lake-87574.herokuapp.com/admin/${user?.email}`,{
              method:"GET",
             headers:{
                 "content-type":"application/json",

@@ -1,7 +1,10 @@
+import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomConfirm from '../../../components/CustomConfirm/CustomConfirm'
+import auth from '../../../firebase.init';
 
 
 const ManageProducts = () => {
@@ -11,18 +14,25 @@ const ManageProducts = () => {
     const [users,setUsers]=useState([])
     const [isLoading,setIsLoading]=useState(true)
     const [refetch,setRefetch]=useState(false)
+    const navigate=useNavigate()
     useEffect(()=>{
-        fetch('http://localhost:5000/allusers',{
+        fetch('https://gentle-lake-87574.herokuapp.com/allusers',{
                 headers:{
                     "Content-Type":"application/json",
                     authorization:`Bearer ${localStorage.getItem('accessToken')}`
                 }
-            }).then(res=>res.json())
-              .then(data=>{
+            }).then(res=>{
+                if(res.status===403||res.status===401){
+                    signOut(auth)
+                    navigate('/login')
+
+                }
+                return res.json()
+            }).then(data=>{
                   setIsLoading(false)
                   setUsers(data)
                 })
-    },[refetch])
+    },[refetch,navigate])
 
     // if(isLoading){
     //     return <CustomSpinner/>
@@ -35,15 +45,21 @@ const ManageProducts = () => {
             setConfirmIsOpen(false)
             console.log('Order id',userId)
             const admin={role:"admin"}
-            fetch(`http://localhost:5000/makeAdminByAdmin/${userId}`,{
+            fetch(`https://gentle-lake-87574.herokuapp.com/makeAdminByAdmin/${userId}`,{
                 method:"PATCH",
                 headers:{
                     'content-type':'application/json',
                     authorization:`Bearer ${localStorage.getItem('accessToken')}`
                 },
                 body:JSON.stringify(admin)
-            }).then(res=>res.json())
-               .then(data=>{
+            }).then(res=>{
+                if(res.status===403||res.status===401){
+                    signOut(auth)
+                    navigate('/login')
+
+                }
+                return res.json()
+            }).then(data=>{
                        console.log(data)
                        toast.success('Admin is made successfully')
                        setRefetch(!refetch)

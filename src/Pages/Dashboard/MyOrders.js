@@ -10,6 +10,7 @@ import auth from '../../firebase.init';
 import CustomConfirm from '../../components/CustomConfirm/CustomConfirm'
 import { useNavigate } from 'react-router-dom';
 import Helmet from 'react-helmet';
+import { signOut } from 'firebase/auth';
 
 const MyOrders = () => {
     const [user, loading, authError] = useAuthState(auth);
@@ -18,14 +19,20 @@ const MyOrders = () => {
     const navigate=useNavigate()
 
     const {data:orders,isLoading,error,refetch}=useQuery('orders',()=>(
-        fetch(`http://localhost:5000/orders?user=${user?.email}`,{
+        fetch(`https://gentle-lake-87574.herokuapp.com/orders?user=${user?.email}`,{
             method:"GET",
             headers:{
                 "Content-Type":"application/json",
                 authorization:`Bearer ${localStorage.getItem('accessToken')}`
             }
-        })
-            .then(res=>res.json())
+        }).then(res=>{
+                if(res.status===403||res.status===401){
+                    signOut(auth)
+                    navigate('/login')
+
+                }
+                return res.json()
+            })
 
     ))
     
@@ -38,14 +45,20 @@ const MyOrders = () => {
         if(confirm){
             setModalIsOpen(false)
             console.log(orderId)
-            fetch(`http://localhost:5000/deleteOrderByUser/${orderId}`,{
+            fetch(`https://gentle-lake-87574.herokuapp.com/deleteOrderByUser/${orderId}`,{
                 method:"DELETE",
                 headers:{
                     'content-type':'application/json',
                     authorization:`Bearer ${localStorage.getItem('accessToken')}`
                 }
-            }).then(res=>res.json())
-               .then(data=>{
+            }).then(res=>{
+                if(res.status===403||res.status===401){
+                    signOut(auth)
+                    navigate('/login')
+
+                }
+                return res.json()
+            }).then(data=>{
                    if(data.deletedCount===1){
                        toast.success('The order is deleted successfully')
                        refetch()

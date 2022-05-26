@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import auth from '../../firebase.init';
+import { signOut } from 'firebase/auth';
 
 const Purchase = () => {
 
@@ -13,15 +14,22 @@ const Purchase = () => {
     const [partsItem,setPartsItem]=useState({})
     const [quantity,setQuantity]=useState(0)
     const [maxQuantity,setMaxQuantity]=useState(0)
+    const navigate=useNavigate()
     // [agree,setAgree]=useState(false)
     useEffect(()=>{
-        fetch(`http://localhost:5000/partsItemById/${id}`,{
+        fetch(`https://gentle-lake-87574.herokuapp.com/partsItemById/${id}`,{
             headers:{
                 "content-type":"application/json",
                 authorization:`Bearer ${localStorage.getItem('accessToken')}`
             }
-        }).then(res=>res.json())
-          .then(data=>{
+        }).then(res=>{
+            if(res.status===403||res.status===401){
+                signOut(auth)
+                navigate('/login')
+
+            }
+            return res.json()
+        }).then(data=>{
                setPartsItem(data)
                setQuantity(data.minQuantity)
                setMaxQuantity(data.availableQuantity-data.minQuantity)
@@ -74,7 +82,7 @@ const Purchase = () => {
                 totalPrice:parseInt(quantity)*parseInt(price),
                 purchaseQuantity:quantity
             }
-            fetch('http://localhost:5000/order',{
+            fetch('https://gentle-lake-87574.herokuapp.com/order',{
                 method:"POST",
                 headers:{
                     "content-type":"application/json",
@@ -82,21 +90,33 @@ const Purchase = () => {
                 },
                 body:JSON.stringify(order)
 
-            }).then(res=>res.json())
-               .then(data=>{
+            }).then(res=>{
+                if(res.status===403||res.status===401){
+                    signOut(auth)
+                    navigate('/login')
+
+                }
+                return res.json()
+            }).then(data=>{
                    if(data){
                        toast.success('The order is placed successfully')
                        reset()
                        const currentAvailableQuantity={availableQuantity:maxQuantity}
-                        fetch(`http://localhost:5000/partsQuantity/${data?.partsId}`,{
+                        fetch(`https://gentle-lake-87574.herokuapp.com/partsQuantity/${data?.partsId}`,{
                             method:"PATCH",
                             headers:{
                                 "content-type":"application/json",
                                 authorization:`Bearer ${localStorage.getItem('accessToken')}`
                             },
                             body:JSON.stringify(currentAvailableQuantity)
-                        }).then(res=>res.json())
-                          .then(data=>console.log('updated',data))
+                        }).then(res=>{
+                            if(res.status===403||res.status===401){
+                                signOut(auth)
+                                navigate('/login')
+            
+                            }
+                            return res.json()
+                        }).then(data=>console.log('updated',data))
 
                    }
                    

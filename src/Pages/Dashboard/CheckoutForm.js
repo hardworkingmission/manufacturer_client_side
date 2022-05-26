@@ -1,7 +1,9 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-//import CustomSpinner from '../CustomSpinner/CustomSpinner';
-// https://github.com/stripe/react-stripe-js/blob/master/examples/hooks/0-Card-Minimal.js
+import { useNavigate } from 'react-router-dom';
+import auth from '../../firebase.init';
+
 const CheckoutForm = ({order}) => {
     const {_id,totalPrice,name,email}=order
     const stripe = useStripe();
@@ -11,9 +13,10 @@ const CheckoutForm = ({order}) => {
     const [transactionId,setTransactionId]=useState('')
     const [clientSecret, setClientSecret] = useState("");
     const [processing,setProcessing]=useState(false)
+    const navigate=useNavigate()
     
     useEffect(()=>{
-        fetch('http://localhost:5000/create-payment-intent',{
+        fetch('https://gentle-lake-87574.herokuapp.com/create-payment-intent',{
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
@@ -79,15 +82,21 @@ const CheckoutForm = ({order}) => {
                 status:"pending",
                 transactionId:paymentIntent.id
             }
-            fetch(`http://localhost:5000/order/${_id}`,{
+            fetch(`https://gentle-lake-87574.herokuapp.com/order/${_id}`,{
                 method:"PATCH",
                 headers:{
                     "Content-Type":"application/json",
                     authorization:`Bearer ${localStorage.getItem('accessToken')}`
                 },
                 body:JSON.stringify(payment)
-            }).then(res=>res.json())
-               .then(data=>{
+            }).then(res=>{
+                if(res.status===403||res.status===401){
+                    signOut(auth)
+                    navigate('/login')
+
+                }
+                return res.json()
+            }).then(data=>{
                    setProcessing(false)
                    console.log(data)
                })

@@ -1,11 +1,15 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import auth from '../../../firebase.init';
 
 
 const AddProduct = () => {
     const { register, formState: { errors },getValues, handleSubmit,watch,reset} = useForm();
+    const navigate=useNavigate()
     const IMAGEBB_API_KEY='3416db02f54b1be79b26ebe512924bfe'
     const onSubmit=(data)=>{
         console.log(data)
@@ -14,8 +18,14 @@ const AddProduct = () => {
         fetch(`https://api.imgbb.com/1/upload?key=${IMAGEBB_API_KEY}`,{
             method:"POST",
             body:formData
-        }).then(res=>res.json())
-           .then(result=>{
+        }).then(res=>{
+            if(res.status===403||res.status===401){
+                signOut(auth)
+                navigate('/login')
+
+            }
+            return res.json()
+        }).then(result=>{
             if(result.success){
                 const partsInfo={
                     name:data?.name,
@@ -25,15 +35,21 @@ const AddProduct = () => {
                     availableQuantity:data?.availableQuantity,
                     price:data?.price
                 }
-                fetch('http://localhost:5000/parts',{
+                fetch('https://gentle-lake-87574.herokuapp.com/parts',{
                     method:"POST",
                     headers:{
                         "content-type":"application/json",
                         authorization:`Bearer ${localStorage.getItem('accessToken')}`
                     },
                     body:JSON.stringify(partsInfo)
-                }).then(res=>res.json())
-                  .then(data=>{
+                }).then(res=>{
+                    if(res.status===403||res.status===401){
+                        signOut(auth)
+                        navigate('/login')
+    
+                    }
+                    return res.json()
+                }).then(data=>{
                       if(data){
                           toast.success('Parts is added Successfully')
                           reset()

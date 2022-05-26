@@ -1,28 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import { signOut } from 'firebase/auth';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomSpinner from '../../../components/CustomSpinner/CustomSpinner';
+import auth from '../../../firebase.init';
 
 
 
-const UpdateProduct = ({id,closeModal}) => {
-    const { register, formState: { errors },getValues, handleSubmit,watch,reset} = useForm();
+const UpdateProduct = ({id,closeModal,queryRefetch}) => {
+    const { register, formState: { errors },handleSubmit,reset} = useForm();
+    const navigate=useNavigate()
 
     const {data:partsItem,isLoading,error,refetch}=useQuery(['parts',id],()=>
-                fetch(`http://localhost:5000/partsItemById/${id}`,{
+                fetch(`https://gentle-lake-87574.herokuapp.com/partsItemById/${id}`,{
                     headers:{
                         "content-type":"application/json",
                         authorization:`Bearer ${localStorage.getItem('accessToken')}`
                     }
 
                 })
-                .then(res=>res.json())
+                .then(res=>{
+                    if(res.status===403||res.status===401){
+                        signOut(auth)
+                        navigate('/login')
+    
+                    }
+                    return res.json()
+                })
     )
     const IMAGEBB_API_KEY='3416db02f54b1be79b26ebe512924bfe'
     const onSubmit=(data)=>{
-        console.log(data)
+        //console.log(data)
         const formData= new FormData()
         formData.append('image',data.img[0])
         fetch(`https://api.imgbb.com/1/upload?key=${IMAGEBB_API_KEY}`,{
@@ -39,17 +50,24 @@ const UpdateProduct = ({id,closeModal}) => {
                     availableQuantity:data?.availableQuantity,
                     price:data?.price
                 }
-                fetch(`http://localhost:5000/parts/${id}`,{
+                fetch(`https://gentle-lake-87574.herokuapp.com/parts/${id}`,{
                     method:"PATCH",
                     headers:{
                         "content-type":"application/json",
                         authorization:`Bearer ${localStorage.getItem('accessToken')}`
                     },
                     body:JSON.stringify(partsInfo)
-                }).then(res=>res.json())
-                  .then(data=>{
+                }).then(res=>{
+                    if(res.status===403||res.status===401){
+                        signOut(auth)
+                        navigate('/login')
+    
+                    }
+                    return res.json()
+                }).then(data=>{
                       if(data){
                           refetch()
+                          queryRefetch()
                           toast.success('Product is updated Successfully')
                           reset()
                           closeModal()

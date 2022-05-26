@@ -11,6 +11,7 @@ import CustomSpinner from '../../../components/CustomSpinner/CustomSpinner'
 import CustomConfirm from '../../../components/CustomConfirm/CustomConfirm'
 import UpdateProduct from './UpdateProduct';
 import CustomModal from '../../../components/CustomModal/CustomModal'
+import { signOut } from 'firebase/auth';
 
 const ManageProducts = () => {
     const [user, loading, authError] = useAuthState(auth);
@@ -31,14 +32,20 @@ const ManageProducts = () => {
         if(confirm){
             setConfirmIsOpen(false)
             console.log(partsId)
-            fetch(`http://localhost:5000/deleteParts/${partsId}`,{
+            fetch(`https://gentle-lake-87574.herokuapp.com/deleteParts/${partsId}`,{
                 method:"DELETE",
                 headers:{
                     'content-type':'application/json',
                     authorization:`Bearer ${localStorage.getItem('accessToken')}`
                 }
-            }).then(res=>res.json())
-               .then(data=>{
+            }).then(res=>{
+                if(res.status===403||res.status===401){
+                    signOut(auth)
+                    navigate('/login')
+
+                }
+                return res.json()
+            }).then(data=>{
                    if(data.deletedCount===1){
                        toast.success('The parts is deleted successfully')
                        queryRefetch()
@@ -75,7 +82,7 @@ const ManageProducts = () => {
                     <h3>Do you want to delete it?</h3>
                 </CustomConfirm>
                 <CustomModal closeModal={closeModal} modalIsOpen={modalIsOpen}>
-                      <UpdateProduct id={productId} closeModal={closeModal}/>
+                      <UpdateProduct id={productId} queryRefetch={queryRefetch} closeModal={closeModal}/>
                 </CustomModal>
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">

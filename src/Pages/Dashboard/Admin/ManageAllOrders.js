@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash} from '@fortawesome/free-solid-svg-icons'
 import CustomSpinner from '../../../components/CustomSpinner/CustomSpinner'
 import CustomConfirm from '../../../components/CustomConfirm/CustomConfirm'
+import { signOut } from 'firebase/auth';
+import auth from '../../../firebase.init';
+import { useNavigate } from 'react-router-dom';
 
 
 const ManageProducts = () => {
@@ -14,18 +17,26 @@ const ManageProducts = () => {
     const [orders,setOrders]=useState([])
     const [isLoading,setIsLoading]=useState(true)
     const [refetch,setRefetch]=useState(false)
+    const navigate=useNavigate()
     useEffect(()=>{
-        fetch('http://localhost:5000/allorders',{
+        fetch('https://gentle-lake-87574.herokuapp.com/allorders',{
                 headers:{
                     "Content-Type":"application/json",
                     authorization:`Bearer ${localStorage.getItem('accessToken')}`
                 }
-            }).then(res=>res.json())
+            }).then(res=>{
+                if(res.status===403||res.status===401){
+                    signOut(auth)
+                    navigate('/login')
+
+                }
+                return res.json()
+            })
               .then(data=>{
                   setIsLoading(false)
                   setOrders(data)
                 })
-    },[refetch])
+    },[refetch,navigate])
 
     if(isLoading){
         return <CustomSpinner/>
@@ -35,15 +46,21 @@ const ManageProducts = () => {
         const payment={
             status:"shipped",
         }
-        fetch(`http://localhost:5000/order/${id}`,{
+        fetch(`https://gentle-lake-87574.herokuapp.com/order/${id}`,{
             method:"PATCH",
             headers:{
                 "Content-Type":"application/json",
                 authorization:`Bearer ${localStorage.getItem('accessToken')}`
             },
             body:JSON.stringify(payment)
-        }).then(res=>res.json())
-           .then(data=>{
+        }).then(res=>{
+            if(res.status===403||res.status===401){
+                signOut(auth)
+                navigate('/login')
+
+            }
+            return res.json()
+        }).then(data=>{
                setRefetch(!refetch)
                toast.success('Order is Shipped')
                 setIsLoading(false)
@@ -56,14 +73,20 @@ const ManageProducts = () => {
         if(confirm){
             setConfirmIsOpen(false)
             console.log('Order id',orderId)
-            fetch(`http://localhost:5000/deleteOrderByAdmin/${orderId}`,{
+            fetch(`https://gentle-lake-87574.herokuapp.com/deleteOrderByAdmin/${orderId}`,{
                 method:"DELETE",
                 headers:{
                     'content-type':'application/json',
                     authorization:`Bearer ${localStorage.getItem('accessToken')}`
                 }
-            }).then(res=>res.json())
-               .then(data=>{
+            }).then(res=>{
+                if(res.status===403||res.status===401){
+                    signOut(auth)
+                    navigate('/login')
+
+                }
+                return res.json()
+            }).then(data=>{
                    if(data.deletedCount===1){
                        toast.success('The Order is deleted successfully')
                        setRefetch(!refetch)
